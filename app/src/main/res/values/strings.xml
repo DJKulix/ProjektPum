@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Projekt2</string>
+    <string name="title_home">Menu</string>
+    <string name="title_dashboard">Kalkulator DMX</string>
+    <string name="title_notifications">Chat</string>
+    <string name="hundred">0</string>
+    <string name="decimal">0</string>
+    <string name="units">0</string>
+    <string name="addStep">-20</string>
+    <string name="decStep">+20</string>
+    <string name="textHundreds">0</string>
+    <string name="textDec">0</string>
+    <string name="textUnits">0</string>
+    <string name="decStep2">-20</string>
+    <string name="addStep2">+20</string>
+</resources>

@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/btnGroup1"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="0dp"
+            android:textColor="@color/white"
+            app:cornerRadius="0dp"
+            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
+            android:visibility="invisible"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/addHundreds"
+            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:layout_weight="1"
+            android:onClick="addHundredDigits"
+            android:text="+"
+            android:textColor="@color/white"
+            app:cornerRadius="0dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/addDecimals"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="0dp"
+            android:text="+"
+            android:textColor="@color/white"
+            app:cornerRadius="0dp"
+            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/addUnits"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="0dp"
+            android:text="+"
+            android:textColor="@color/white"
+            app:cornerRadius="0dp"
+            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="0dp"
+            android:textColor="@color/white"
+            app:cornerRadius="0dp"
+            android:visibility="invisible"
+            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/btnGroup2"
+        android:layout_below="@id/btnGroup1"
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/decStep"
+            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:layout_weight="1"
+            android:text="@string/decStep2"
+            android:textColor="@color/white"
+            app:cornerRadius="0dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnHundreds"
+            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:layout_weight="1"
+            android:clickable="false"
+            android:text="@string/textHundreds"
+            android:textColor="@color/white"
+            app:cornerRadius="0dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDecimals"
+            android:layout_width="0dp"
+            android:clickable="false"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="0dp"
+            android:text="@string/textDec"
+            android:textColor="@color/white"
+            app:cornerRadius="0dp"
+            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnUnits"
+            android:clickable="false"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="0dp"
+            android:text="@string/textUnits"
+            android:textColor="@color/white"
+            app:cornerRadius="0dp"
+            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/addStep"
+            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:layout_weight="1"
+            android:text="@string/addStep2"
+            android:textColor="@color/white"
+            app:cornerRadius="0dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/btnGroup3"
+        android:layout_below="@id/btnGroup2"
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="0dp"
+            android:visibility="invisible"
+            android:textColor="@color/white"
+            app:cornerRadius="0dp"
+            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/decHundreds"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="0dp"
+            android:text="-"
+            android:textColor="@color/white"
+            app:cornerRadius="0dp"
+            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/decDecimals"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="0dp"
+            android:text="-"
+            android:textColor="@color/white"
+            app:cornerRadius="0dp"
+            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/decUnits"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="0dp"
+            android:text="-"
+            android:textColor="@color/white"
+            app:cornerRadius="0dp"
+            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="0dp"
+            android:visibility="invisible"
+            android:textColor="@color/white"
+            app:cornerRadius="0dp"
+            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"/>
+
+    </LinearLayout>
+
+    <Space
+        android:id="@+id/space1"
+        android:layout_width="wrap_content"
+        android:layout_height="51dp"
+        android:layout_below="@id/btnGroup3" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/space1"
+        android:layout_marginTop="200dp">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="9">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="1" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="2" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="3" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="4" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="5" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="6" />
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="7" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="8" />
+
+            <TextView
+                android:id="@+id/textView119"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="9" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="9">
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switch1"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:maxWidth="5dp"
+                android:paddingEnd="-5dp"
+                android:rotation="270"
+                android:scaleX="1.5" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switch2"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:maxWidth="5dp"
+                android:paddingEnd="-5dp"
+                android:rotation="270"
+                android:scaleX="1.5" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switch3"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:maxWidth="5dp"
+                android:paddingEnd="-5dp"
+                android:rotation="270"
+                android:scaleX="1.5" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switch4"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:maxWidth="5dp"
+                android:paddingEnd="-5dp"
+                android:rotation="270"
+                android:scaleX="1.5" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switch5"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:maxWidth="5dp"
+                android:paddingEnd="-5dp"
+                android:rotation="270"
+                android:scaleX="1.5" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switch6"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:maxWidth="5dp"
+                android:paddingEnd="-5dp"
+                android:rotation="270"
+                android:scaleX="1.5" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switch7"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:maxWidth="5dp"
+                android:paddingEnd="-5dp"
+                android:rotation="270"
+                android:scaleX="1.5" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switch8"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:maxWidth="5dp"
+                android:paddingEnd="-5dp"
+                android:rotation="270"
+                android:scaleX="1.5" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switch9"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:maxWidth="5dp"
+                android:paddingEnd="-5dp"
+                android:rotation="270"
+                android:scaleX="1.5" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="9">
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="1" />
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="2" />
+
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="3" />
+
+            <TextView
+                android:id="@+id/textView14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="4" />
+
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="5" />
+
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="6" />
+
+            <TextView
+                android:id="@+id/textView17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="7" />
+
+            <TextView
+                android:id="@+id/textView18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="8" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="9" />
+
+        </TableRow>
+    </TableLayout>
+
+</RelativeLayout>
