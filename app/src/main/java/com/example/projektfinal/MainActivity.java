@@ -11,6 +11,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,6 +38,10 @@ public class MainActivity extends AppCompatActivity {
 
         final Button btnAddStep = (Button) findViewById(R.id.addStep);
         final Button btnDecStep = (Button) findViewById(R.id.decStep);
+
+        final Button btnChngStep = (Button) findViewById(R.id.changeStepButton);
+
+        final TextInputEditText tiChngStep = (TextInputEditText) findViewById(R.id.stepTextInput);
 
 
         //Listeners
@@ -241,7 +246,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    btnChngStep.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            String step = tiChngStep.getText().toString();
+            String add = "+" + step;
+            String dec = "-" + step;
+            btnDecStep.setText(dec);
+            btnAddStep.setText(add);
 
+        }
+    });
 
     }//Ten ładny nawias kończy onCreate()
 

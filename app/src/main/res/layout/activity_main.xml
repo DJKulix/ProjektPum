@@ -203,10 +203,47 @@
     </LinearLayout>
 
     <Space
+        android:id="@+id/space2"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_below="@id/btnGroup3" />
+
+    <LinearLayout
+        android:id="@+id/stepChangeLayout"
+        android:layout_width="match_parent"
+        android:layout_below="@id/space2"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:weightSum="5">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/stepTextInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Podaj wartość skoku"
+                android:inputType="numberSigned|numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/changeStepButton"
+            app:cornerRadius="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:text="Zmień" />
+    </LinearLayout>
+
+    <Space
         android:id="@+id/space1"
         android:layout_width="wrap_content"
         android:layout_height="51dp"
-        android:layout_below="@id/btnGroup3" />
+        android:layout_below="@id/stepChangeLayout" />
 
     <TableLayout
         android:layout_width="match_parent"
