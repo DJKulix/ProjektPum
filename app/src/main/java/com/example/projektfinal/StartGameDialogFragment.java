@@ -8,16 +8,16 @@ import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
 
 public class StartGameDialogFragment extends DialogFragment {
-
-    static StartGameDialogFragment newInstance(int num){
-        StartGameDialogFragment f = new StartGameDialogFragment()
-
-                Bundle args = new Bundle();
-                args.putInt("num", num);
-                f.setArguments(args);
-
-                return f;
-    }
+//
+//    static StartGameDialogFragment newInstance(int num){
+//        StartGameDialogFragment f = new StartGameDialogFragment()
+//
+//                Bundle args = new Bundle();
+//                args.putInt("num", num);
+//                f.setArguments(args);
+//
+//                return f;
+//    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
