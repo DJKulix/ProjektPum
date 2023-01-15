@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
@@ -12,6 +15,15 @@ import android.widget.Toast;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,45 +61,52 @@ public class MainActivity extends AppCompatActivity {
         btnAddHundreds.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(dmxAddress >= 500){
-                    showMessage("Przekroczono maksymalną wartość");
+//                if(dmxAddress >= 500){
+//                    showMessage("Przekroczono maksymalną wartość");
+//                }
+//                else {
+//
+//                    dmxAddress += 100;
+//                    String newAddress = String.valueOf(dmxAddress);
+//
+//                    btnHundreds.setText(String.valueOf(newAddress.charAt(0)));
+//                    btnDecimals.setText(String.valueOf(newAddress.charAt(1)));
+//                    btnUnits.setText(String.valueOf(newAddress.charAt(2)));
+//
+//                }
+//
+//                calculateDipSwitch();
+                try {
+                    writeToFile("text", getApplicationContext());
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                else {
-
-                    dmxAddress += 100;
-                    String newAddress = String.valueOf(dmxAddress);
-
-                    btnHundreds.setText(String.valueOf(newAddress.charAt(0)));
-                    btnDecimals.setText(String.valueOf(newAddress.charAt(1)));
-                    btnUnits.setText(String.valueOf(newAddress.charAt(2)));
-
-                }
-
-                calculateDipSwitch();
             }
         });
 
         btnAddDecimals.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (dmxAddress >= 510) {
-                    showMessage("Przekroczono maksymalną wartość");
-                } else {
-
-                    dmxAddress += 10;
-                    String newAddress = String.valueOf(dmxAddress);
-
-                    if(dmxAddress > 100) {
-                        btnHundreds.setText(String.valueOf(newAddress.charAt(0)));
-                        btnDecimals.setText(String.valueOf(newAddress.charAt(1)));
-                        btnUnits.setText(String.valueOf(newAddress.charAt(2)));
-                    }
-                    else{
-                        btnDecimals.setText(String.valueOf(newAddress.charAt(0)));
-                        btnUnits.setText(String.valueOf(newAddress.charAt(1)));
-                    }
-                    calculateDipSwitch();
-                }
+//                if (dmxAddress >= 510) {
+//                    showMessage("Przekroczono maksymalną wartość");
+//                } else {
+//
+//                    dmxAddress += 10;
+//                    String newAddress = String.valueOf(dmxAddress);
+//
+//                    if(dmxAddress > 100) {
+//                        btnHundreds.setText(String.valueOf(newAddress.charAt(0)));
+//                        btnDecimals.setText(String.valueOf(newAddress.charAt(1)));
+//                        btnUnits.setText(String.valueOf(newAddress.charAt(2)));
+//                    }
+//                    else{
+//                        btnDecimals.setText(String.valueOf(newAddress.charAt(0)));
+//                        btnUnits.setText(String.valueOf(newAddress.charAt(1)));
+//                    }
+//                    calculateDipSwitch();
+//                }
+                Intent intent = new Intent(getApplicationContext(), FixtureBuilder.class);
+                startActivity(intent);
             }
         });
 
@@ -300,5 +319,38 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void writeToFile(String data,Context context) throws IOException {
+//        showMessage("DUPA");
+        File root = new File(Environment.getExternalStorageDirectory(), "Notes");
+        if (!root.exists()) {
+            root.mkdirs();
+        }
+        File gpxfile = new File(root, "file.txt");
+        FileWriter writer = new FileWriter(gpxfile);
+        writer.append("sBody");
+        writer.flush();
+        writer.close();
+        Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show();
+
+//        File path = context.getFilesDir();
+//        File path2 = context.getExternalFilesDir(null);
+//        File file = new File(path, "my-file-name.txt");
+//        File file2 = new File(path2, "my-file-name.txt");
+//
+//        FileOutputStream stream = new FileOutputStream(file);
+//        try {
+//            stream.write("text-to-write".getBytes());
+//        } finally {
+//            stream.close();
+//        }
+//
+//        FileOutputStream stream2 = new FileOutputStream(file2);
+//        try {
+//            stream.write("text-to-write".getBytes());
+//        } finally {
+//            stream.close();
+//        }
+
+    }
 
 }

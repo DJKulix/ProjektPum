@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/buttonDim"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dimmer" />
+
+    <Button
+        android:id="@+id/buttonShu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Shutter"
+        app:layout_constraintTop_toBottomOf="@+id/buttonDim" />
+
+    <Button
+        android:id="@+id/buttonRed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Red"
+        app:layout_constraintTop_toBottomOf="@+id/buttonShu" />
+
+    <Button
+        android:id="@+id/buttonGre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Green"
+        app:layout_constraintTop_toBottomOf="@+id/buttonRed" />
+
+    <Button
+        android:id="@+id/buttonBlu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Blue"
+        app:layout_constraintTop_toBottomOf="@+id/buttonGre" />
+
+    <Button
+        android:id="@+id/buttonWht"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="White"
+        app:layout_constraintTop_toBottomOf="@+id/buttonBlu" />
+
+    <Button
+        android:id="@+id/buttonAmb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Amber"
+        app:layout_constraintTop_toBottomOf="@+id/buttonWht" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

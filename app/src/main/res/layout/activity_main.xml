@@ -246,6 +246,7 @@
         android:layout_below="@id/stepChangeLayout" />
 
     <TableLayout
+        android:id="@+id/table"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/space1"
@@ -522,6 +523,8 @@
                 android:text="9" />
 
         </TableRow>
+
+
     </TableLayout>
 
 </RelativeLayout>

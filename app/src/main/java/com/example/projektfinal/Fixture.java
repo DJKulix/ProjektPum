@@ -1,6 +1,6 @@
 package com.example.projektfinal;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Fixture {
     public int id;
@@ -10,15 +10,23 @@ public class Fixture {
     public String description;
     public int x;
     public int y;
-    public ArrayList<Attribute> attributesList;
+    public List<String> attributesList;
 
-    public ArrayList<Attribute> getAttributesList() {
+    /*
+        Par LED SLIM Classic 6 DMX
+        1. Dimmer
+        2. Shutter
+        3. Red
+        4. Green
+        5. Blue
+        6. White
+
+     */
+
+    public List<String> getAttributesList() {
         return attributesList;
     }
 
-    public void setAttributesList(ArrayList<Attribute> attributesList) {
-        this.attributesList = attributesList;
-    }
 
     public int getX() {
         return x;
@@ -34,6 +42,11 @@ public class Fixture {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public Fixture(String name, List<String> attributesList){
+        this.name = name;
+        this.attributesList = attributesList;
     }
 
     public Fixture(int id, String name, int address, String mode, String description, int x, int y) {

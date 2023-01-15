@@ -13,4 +13,21 @@
     <string name="textUnits">0</string>
     <string name="decStep2">-20</string>
     <string name="addStep2">+20</string>
+    <string name="opis_urz_dzenia">Opis urządzenia</string>
+    <string name="nazwa_trybu">Nazwa trybu</string>
+    <string name="adres_dmx">Adres DMX</string>
+    <string name="nazwa_urz_dzenia">Nazwa urządzenia</string>
+    <string name="dodawanie_urz_dzenia">Dodawanie urządzenia</string>
+    <string name="zapisz">Zapisz</string>
+    <string name="dodaj_atrybut">Dodaj atrybut</string>
+    <string name="attributesList">Tutaj pojawią się dodane atrybuty</string>
+    <string-array name="attributes">
+        <item>Dimmer</item>
+        <item>Shutter</item>
+        <item>Red</item>
+        <item>Green</item>
+        <item>Blue</item>
+        <item>White</item>
+        <item>Amber</item>
+    </string-array>
 </resources>
