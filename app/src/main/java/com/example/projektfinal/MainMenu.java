@@ -22,11 +22,11 @@ public class MainMenu extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_menu);
+//        setContentView(R.layout.activity_main_menu);
 
 
         //Tu ogarnac dialog z formsem do tworzenia, potem sie ogarnie jak to polaczyc w kupe
-        final Button btnAddFixture = (Button) findViewById(R.id.addFixture);
+//        final Button btnAddFixture = (Button) findViewById(R.id.addFixture);
         builder = new AlertDialog.Builder(this);
 
 

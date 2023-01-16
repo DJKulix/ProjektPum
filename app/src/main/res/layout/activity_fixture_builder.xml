@@ -18,14 +18,15 @@
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="145dp"
             android:gravity="center"
-            android:text="Dodawanie urządzenia" />
+            android:text="@string/dodawanie_urz_dzenia" />
 
         <LinearLayout
             android:id="@+id/nameLL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/textView10"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:baselineAligned="false">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
@@ -36,8 +37,7 @@
                     android:id="@+id/nameTextInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Podaj nazwę urządzenia"
-                    android:inputType="numberSigned|numberDecimal" />
+                    android:hint="@string/nazwa_urz_dzenia" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -59,8 +59,11 @@
                     android:id="@+id/addressTextInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Podaj wartość skoku"
-                    android:inputType="numberSigned|numberDecimal" />
+                    android:digits="0123456789"
+                    android:hint="@string/adres_dmx"
+                    android:inputType="number"
+                    android:maxLength="3" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -82,9 +85,11 @@
                     android:id="@+id/modeTextInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Podaj wartość skoku"
-                    android:inputType="numberSigned|numberDecimal" />
+                    android:hint="@string/nazwa_trybu"
+                   />
+
             </com.google.android.material.textfield.TextInputLayout>
+
 
         </LinearLayout>
 
@@ -100,23 +105,47 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="4">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/descriptionTextInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Podaj wartość skoku"
-                    android:inputType="numberSigned|numberDecimal" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/descriptionTextInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/opis_urz_dzenia"
+                />
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/attributesListLL"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="horizontal"
+            android:layout_below="@id/descriptionLL">
+
+            <TextView
+                android:id="@+id/attrListTV"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/attributesList">
+
+            </TextView>
+
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/addAttributeButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/attributesListLL"
+            android:text="@string/dodaj_atrybut" />
 
         <Button
             android:id="@+id/saveFixtureButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/descriptionLL"
-            android:layout_marginTop="-4dp"
-            android:text="Zapisz" />
+            android:layout_below="@id/addAttributeButton"
+            android:text="@string/zapisz" />
 
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

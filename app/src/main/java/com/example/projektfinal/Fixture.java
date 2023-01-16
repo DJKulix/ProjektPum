@@ -44,8 +44,9 @@ public class Fixture {
         this.y = y;
     }
 
-    public Fixture(String name, List<String> attributesList){
+    public Fixture(String name, String mode, List<String> attributesList){
         this.name = name;
+        this.mode = mode;
         this.attributesList = attributesList;
     }
 

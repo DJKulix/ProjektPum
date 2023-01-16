@@ -2,9 +2,13 @@ package com.example.projektfinal;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -16,7 +20,10 @@ import android.widget.Toast;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
 
+
+
 import java.io.BufferedWriter;
+//import java.io.File;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -24,6 +31,13 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+
+import com.google.common.base.Charsets;
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
+
+import com.google.common.io.LineProcessor;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,8 +47,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
+        
         //Buttons
         final Button btnAddHundreds = (Button) findViewById(R.id.addHundreds);
         final Button btnAddDecimals = (Button) findViewById(R.id.addDecimals);
@@ -320,16 +333,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void writeToFile(String data,Context context) throws IOException {
-//        showMessage("DUPA");
-        File root = new File(Environment.getExternalStorageDirectory(), "Notes");
-        if (!root.exists()) {
-            root.mkdirs();
-        }
-        File gpxfile = new File(root, "file.txt");
-        FileWriter writer = new FileWriter(gpxfile);
-        writer.append("sBody");
-        writer.flush();
+
+        String fileName = "file.txt";
+        File path = getApplicationContext().getFilesDir();
+        System.out.println(path.toString());
+
+        FileOutputStream writer = new FileOutputStream(new File(path, fileName));
+        writer.write(data.getBytes());
         writer.close();
+
         Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show();
 
 //        File path = context.getFilesDir();

@@ -11,7 +11,7 @@ public class Dialog extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_add_fixture);
+        setContentView(R.layout.activity_fixture_builder);
 
         final TextView nameTV = (TextView) findViewById(R.id.nameTextInput);
         final TextView addressTV = (TextView) findViewById(R.id.addressTextInput);
