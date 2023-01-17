@@ -24,7 +24,14 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".FixtureBuilder"
+            android:name=".ActivityFixtureList"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ActivityFixtureBuilder"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -43,7 +50,7 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity android:name=".Pop"></activity>
+        <activity android:name=".PopUpWindow"></activity>
     </application>
 
 </manifest>

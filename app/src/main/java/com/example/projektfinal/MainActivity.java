@@ -1,45 +1,29 @@
 package com.example.projektfinal;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
-import androidx.core.app.ActivityCompat;
-
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
-import android.widget.Switch;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
 
-
-
-import java.io.BufferedWriter;
-//import java.io.File;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-
-import com.google.common.base.Charsets;
-import com.google.common.base.Splitter;
-import com.google.common.collect.Lists;
-
-import com.google.common.io.LineProcessor;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    public static List<Fixture> fixtureList = new ArrayList<>();
+//    public static boolean[] addressValidation = new boolean[512];
 
     public int dmxAddress = 0;
 
@@ -47,33 +31,40 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+
+
+        SharedPreferences preferences = getSharedPreferences("DMXAddressKey", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("dmx_addr",dmxAddress);
+        editor.apply();
+
+        //Zapodanie listy
+
+
         //Buttons
-        final Button btnAddHundreds = (Button) findViewById(R.id.addHundreds);
-        final Button btnAddDecimals = (Button) findViewById(R.id.addDecimals);
-        final Button btnAddUnits = (Button) findViewById(R.id.addUnits);
+        final Button btnAddHundreds = findViewById(R.id.addHundreds);
+        final Button btnAddDecimals = findViewById(R.id.addDecimals);
+        final Button btnAddUnits = findViewById(R.id.addUnits);
 
-        final Button btnDecHundreds = (Button) findViewById(R.id.decHundreds);
-        final Button btnDecDecimals = (Button) findViewById(R.id.decDecimals);
-        final Button btnDecUnits = (Button) findViewById(R.id.decUnits);
+        final Button btnDecHundreds = findViewById(R.id.decHundreds);
+        final Button btnDecDecimals = findViewById(R.id.decDecimals);
+        final Button btnDecUnits = findViewById(R.id.decUnits);
 
-        final Button btnHundreds = (Button) findViewById(R.id.btnHundreds);
-        final Button btnDecimals = (Button) findViewById(R.id.btnDecimals);
-        final Button btnUnits = (Button) findViewById(R.id.btnUnits);
+        final Button btnHundreds = findViewById(R.id.btnHundreds);
+        final Button btnDecimals = findViewById(R.id.btnDecimals);
+        final Button btnUnits = findViewById(R.id.btnUnits);
 
-        final Button btnAddStep = (Button) findViewById(R.id.addStep);
-        final Button btnDecStep = (Button) findViewById(R.id.decStep);
+        final Button btnAddStep = findViewById(R.id.addStep);
+        final Button btnDecStep = findViewById(R.id.decStep);
 
-        final Button btnChngStep = (Button) findViewById(R.id.changeStepButton);
+        final Button btnChngStep = findViewById(R.id.changeStepButton);
 
-        final TextInputEditText tiChngStep = (TextInputEditText) findViewById(R.id.stepTextInput);
+        final TextInputEditText tiChngStep = findViewById(R.id.stepTextInput);
 
 
         //Listeners
 
-        btnAddHundreds.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        btnAddHundreds.setOnClickListener(view -> {
 //                if(dmxAddress >= 500){
 //                    showMessage("Przekroczono maksymalną wartość");
 //                }
@@ -89,17 +80,14 @@ public class MainActivity extends AppCompatActivity {
 //                }
 //
 //                calculateDipSwitch();
-                try {
-                    writeToFile("text", getApplicationContext());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            try {
+                writeToFile("text", getApplicationContext());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
 
-        btnAddDecimals.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        btnAddDecimals.setOnClickListener(view -> {
 //                if (dmxAddress >= 510) {
 //                    showMessage("Przekroczono maksymalną wartość");
 //                } else {
@@ -118,114 +106,130 @@ public class MainActivity extends AppCompatActivity {
 //                    }
 //                    calculateDipSwitch();
 //                }
-                Intent intent = new Intent(getApplicationContext(), FixtureBuilder.class);
-                startActivity(intent);
+            Intent intent = new Intent(getApplicationContext(), ActivityFixtureList.class);
+            startActivity(intent);
+        });
+
+        btnAddUnits.setOnClickListener(view -> {
+//            if(dmxAddress >= 511){
+//                showMessage("Przekroczono maksymalną wartość");
+//            }
+//            else {
+//                dmxAddress += 1;
+//                String newAddress = String.valueOf(dmxAddress);
+//
+//                if(dmxAddress > 100) {
+//                    btnHundreds.setText(String.valueOf(newAddress.charAt(0)));
+//                    btnDecimals.setText(String.valueOf(newAddress.charAt(1)));
+//                    btnUnits.setText(String.valueOf(newAddress.charAt(2)));
+//                }
+//                else if(dmxAddress > 10){
+//                    btnDecimals.setText(String.valueOf(newAddress.charAt(0)));
+//                    btnUnits.setText(String.valueOf(newAddress.charAt(1)));
+//                }
+//                else{
+//                    btnUnits.setText(String.valueOf(newAddress.charAt(0)));
+//                }
+//            }
+//
+//            calculateDipSwitch();
+
+            Intent intent = new Intent(getApplicationContext(), ActivityFixtureBuilder.class);
+            startActivity(intent);
+        });
+
+        btnDecHundreds.setOnClickListener(view -> {
+            if(dmxAddress > 0){
+                int hundredsValue = Integer.parseInt(btnHundreds.getText().toString()) - 1;
+                if (hundredsValue >= 0) {
+                    btnHundreds.setText(String.valueOf(hundredsValue));
+                    dmxAddress -= 100;
+                }
             }
         });
 
-        btnAddUnits.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(dmxAddress >= 511){
-                    showMessage("Przekroczono maksymalną wartość");
+        btnDecDecimals.setOnClickListener(view -> {
+            if(dmxAddress > 0){
+                int decimalsValue = Integer.parseInt(btnDecimals.getText().toString()) - 1;
+                if (decimalsValue >= 0) {
+                    btnDecimals.setText(String.valueOf(decimalsValue));
+
                 }
-                else {
-                    dmxAddress += 1;
-                    String newAddress = String.valueOf(dmxAddress);
-
-                    if(dmxAddress > 100) {
-                        btnHundreds.setText(String.valueOf(newAddress.charAt(0)));
-                        btnDecimals.setText(String.valueOf(newAddress.charAt(1)));
-                        btnUnits.setText(String.valueOf(newAddress.charAt(2)));
-                    }
-                    else if(dmxAddress > 10){
-                        btnDecimals.setText(String.valueOf(newAddress.charAt(0)));
-                        btnUnits.setText(String.valueOf(newAddress.charAt(1)));
-                    }
-                    else{
-                        btnUnits.setText(String.valueOf(newAddress.charAt(0)));
-                    }
-                }
-
-                calculateDipSwitch();
-            }
-        });
-
-        btnDecHundreds.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(dmxAddress > 0){
+                else{
+                    btnDecimals.setText("9");
                     int hundredsValue = Integer.parseInt(btnHundreds.getText().toString()) - 1;
-                    if (hundredsValue >= 0) {
-                        btnHundreds.setText(String.valueOf(hundredsValue));
-                        dmxAddress -= 100;
-                    }
+                    btnHundreds.setText(String.valueOf(hundredsValue));
                 }
+                dmxAddress -= 10;
             }
+
+            calculateDipSwitch();
         });
 
-        btnDecDecimals.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(dmxAddress > 0){
-                    int decimalsValue = Integer.parseInt(btnDecimals.getText().toString()) - 1;
-                    if (decimalsValue >= 0) {
-                        btnDecimals.setText(String.valueOf(decimalsValue));
-
-                    }
-                    else{
-                        btnDecimals.setText("9");
-                        int hundredsValue = Integer.parseInt(btnHundreds.getText().toString()) - 1;
-                        btnHundreds.setText(String.valueOf(hundredsValue));
-                    }
-                    dmxAddress -= 10;
+        btnDecUnits.setOnClickListener(view -> {
+            if(dmxAddress > 0){
+                int unitsValue = Integer.parseInt(btnUnits.getText().toString()) - 1;
+                if (unitsValue >= 0) {
+                    btnUnits.setText(String.valueOf(unitsValue));
                 }
 
-                calculateDipSwitch();
-            }
-        });
-
-        btnDecUnits.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(dmxAddress > 0){
-                    int unitsValue = Integer.parseInt(btnUnits.getText().toString()) - 1;
-                    if (unitsValue >= 0) {
-                        btnUnits.setText(String.valueOf(unitsValue));
-                    }
-
-                    else{
-                        btnUnits.setText("9");
+                else{
+                    btnUnits.setText("9");
 //                        int hundredsValue = Integer.parseInt(btnHundreds.getText().toString()) - 1;
 //                        btnHundreds.setText(String.valueOf(hundredsValue));
-                        int decimalsValue = Integer.parseInt(btnDecimals.getText().toString()) -1;
-                        if(decimalsValue < 0){
-                            btnDecimals.setText("9");
-                            int hundredsValue = Integer.parseInt(btnHundreds.getText().toString())-1;
-                            btnHundreds.setText(String.valueOf(hundredsValue));
-                        }
-                        else{
-                            btnDecimals.setText(String.valueOf(decimalsValue));
-                        }
+                    int decimalsValue = Integer.parseInt(btnDecimals.getText().toString()) -1;
+                    if(decimalsValue < 0){
+                        btnDecimals.setText("9");
+                        int hundredsValue = Integer.parseInt(btnHundreds.getText().toString())-1;
+                        btnHundreds.setText(String.valueOf(hundredsValue));
                     }
-                    dmxAddress -= 1;
+                    else{
+                        btnDecimals.setText(String.valueOf(decimalsValue));
+                    }
                 }
-                calculateDipSwitch();
+                dmxAddress -= 1;
             }
+            calculateDipSwitch();
         });
 
 
-    btnAddStep.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            String step = btnAddStep.getText().toString();
+    btnAddStep.setOnClickListener(view -> {
+        String step = btnAddStep.getText().toString();
+        step = step.substring(1);
+
+        int stepValue = Integer.parseInt(step);
+        if(dmxAddress + stepValue > 511)
+            showMessage("Przekroczono maksymalną wartość");
+
+        else{
+            dmxAddress += stepValue;
+            String newAddress = String.valueOf(dmxAddress);
+            showMessage(String.valueOf(newAddress.charAt(0)));
+
+            if(dmxAddress >= 100) {
+                btnHundreds.setText(String.valueOf(newAddress.charAt(0)));
+                btnDecimals.setText(String.valueOf(newAddress.charAt(1)));
+                btnUnits.setText(String.valueOf(newAddress.charAt(2)));
+            }
+            else if(dmxAddress >= 10){
+                btnDecimals.setText(String.valueOf(newAddress.charAt(0)));
+                btnUnits.setText(String.valueOf(newAddress.charAt(1)));
+            }
+            else{
+                btnUnits.setText(String.valueOf(newAddress.charAt(0)));
+            }
+            calculateDipSwitch();
+        }
+    });
+
+
+        btnDecStep.setOnClickListener(view -> {
+            String step = btnDecStep.getText().toString();
             step = step.substring(1);
 
             int stepValue = Integer.parseInt(step);
-            if(dmxAddress + stepValue > 511)
-                showMessage("Przekroczono maksymalną wartość");
 
-            else{
+            if(dmxAddress - stepValue >= 0){
                 dmxAddress += stepValue;
                 String newAddress = String.valueOf(dmxAddress);
                 showMessage(String.valueOf(newAddress.charAt(0)));
@@ -244,50 +248,15 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             }
-        }
-    });
-
-
-        btnDecStep.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String step = btnDecStep.getText().toString();
-                step = step.substring(1);
-
-                int stepValue = Integer.parseInt(step);
-
-                if(dmxAddress - stepValue >= 0){
-                    dmxAddress += stepValue;
-                    String newAddress = String.valueOf(dmxAddress);
-                    showMessage(String.valueOf(newAddress.charAt(0)));
-
-                    if(dmxAddress >= 100) {
-                        btnHundreds.setText(String.valueOf(newAddress.charAt(0)));
-                        btnDecimals.setText(String.valueOf(newAddress.charAt(1)));
-                        btnUnits.setText(String.valueOf(newAddress.charAt(2)));
-                    }
-                    else if(dmxAddress >= 10){
-                        btnDecimals.setText(String.valueOf(newAddress.charAt(0)));
-                        btnUnits.setText(String.valueOf(newAddress.charAt(1)));
-                    }
-                    else{
-                        btnUnits.setText(String.valueOf(newAddress.charAt(0)));
-                    }
-
-                }
-            }
         });
 
-    btnChngStep.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            String step = tiChngStep.getText().toString();
-            String add = "+" + step;
-            String dec = "-" + step;
-            btnDecStep.setText(dec);
-            btnAddStep.setText(add);
+    btnChngStep.setOnClickListener(view -> {
+        String step = Objects.requireNonNull(tiChngStep.getText()).toString();
+        String add = "+" + step;
+        String dec = "-" + step;
+        btnDecStep.setText(dec);
+        btnAddStep.setText(add);
 
-        }
     });
 
     }//Ten ładny nawias kończy onCreate()
@@ -297,28 +266,23 @@ public class MainActivity extends AppCompatActivity {
 
     public void calculateDipSwitch(){
         SwitchMaterial[] tab = new SwitchMaterial[9];
-        tab[0] = (SwitchMaterial) findViewById(R.id.switch9);
-        tab[1] = (SwitchMaterial) findViewById(R.id.switch8);
-        tab[2] = (SwitchMaterial) findViewById(R.id.switch7);
-        tab[3] = (SwitchMaterial) findViewById(R.id.switch6);
-        tab[4] = (SwitchMaterial) findViewById(R.id.switch5);
-        tab[5] = (SwitchMaterial) findViewById(R.id.switch4);
-        tab[6] = (SwitchMaterial) findViewById(R.id.switch3);
-        tab[7] = (SwitchMaterial) findViewById(R.id.switch2);
-        tab[8] = (SwitchMaterial) findViewById(R.id.switch1);
+        tab[0] = findViewById(R.id.switch9);
+        tab[1] = findViewById(R.id.switch8);
+        tab[2] = findViewById(R.id.switch7);
+        tab[3] = findViewById(R.id.switch6);
+        tab[4] = findViewById(R.id.switch5);
+        tab[5] = findViewById(R.id.switch4);
+        tab[6] = findViewById(R.id.switch3);
+        tab[7] = findViewById(R.id.switch2);
+        tab[8] = findViewById(R.id.switch1);
 
 
         String binaryNumber = Integer.toBinaryString(dmxAddress);
         String padding = String.format("%9s", binaryNumber).replace(' ', '0');
 
-         for(int i = 8; i >= 0; i--){
-            if(padding.charAt(i) == '1'){
-                tab[i].setChecked(true);
-            }
-            else
-                tab[i].setChecked(false);
-        }
-//        showMessage(padding);
+         for(int i = 8; i >= 0; i--)
+             tab[i].setChecked(padding.charAt(i) == '1');
+
         }
 
 
@@ -365,4 +329,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        SharedPreferences sharedPreferences = getSharedPreferences("DMXAddressKey", Context.MODE_PRIVATE);
+        dmxAddress = sharedPreferences.getInt("dmx_addr", dmxAddress);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        SharedPreferences sharedPreferences = getSharedPreferences("DMXAddressKey", Context.MODE_PRIVATE);
+        dmxAddress = sharedPreferences.getInt("dmx_addr", dmxAddress);
+    }
 }

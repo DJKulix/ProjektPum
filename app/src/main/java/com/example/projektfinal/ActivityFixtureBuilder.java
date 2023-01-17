@@ -1,22 +1,24 @@
 package com.example.projektfinal;
 
-import androidx.appcompat.app.AppCompatActivity;
+import static com.example.projektfinal.MainActivity.fixtureList;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -30,10 +32,19 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 
-public class FixtureBuilder extends AppCompatActivity {
+public class ActivityFixtureBuilder extends AppCompatActivity {
 
-    public static List<String> tempAttrList = new ArrayList<>();
+    public static List<String> tempAttrList;
     public TextView attrListTV;
+
+    EditText fixtureNameTV;
+    EditText fixtureModeTV;
+    EditText fixtureAddressTV;
+    EditText fixtureChannelsTV;
+    Button addAttributeButton;
+    Button buildFixtureButton;
+    Button saveFixtureButton;
+
 
     public static void addAttr(String attr) {
         tempAttrList.add(attr);
@@ -47,34 +58,66 @@ public class FixtureBuilder extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fixture_builder);
-
+        tempAttrList = new ArrayList<>();
         attrListTV = findViewById(R.id.attrListTV);
-        EditText fixtureNameTV = findViewById(R.id.nameTextInput);
-        EditText fixtureModeTV = findViewById(R.id.modeTextInput);
-        Button addAttributeButton = findViewById(R.id.addAttributeButton);
-        Button saveButton = findViewById(R.id.saveFixtureButton);
+        fixtureNameTV = findViewById(R.id.nameTIBuilder);
+        fixtureModeTV = findViewById(R.id.modeTIBuilder);
+        fixtureAddressTV = findViewById(R.id.addressTIBuilder);
+        fixtureChannelsTV = findViewById(R.id.channelsTIBuilder);
+        addAttributeButton = findViewById(R.id.addAttributeButton);
+        buildFixtureButton = findViewById(R.id.buildFixtureButton);
+        saveFixtureButton = findViewById(R.id.saveFixtureButton);
+
+        Fixture tempFixture = (Fixture) getIntent().getSerializableExtra("KEY_NAME");
+        if(tempFixture!=null){
+            fixtureNameTV.setText(tempFixture.getName());
+            fixtureModeTV.setText(tempFixture.getMode());
+            fixtureAddressTV.setText(String.valueOf(tempFixture.getAddress()));
+            fixtureChannelsTV.setText(String.valueOf(tempFixture.getChannels()));
 
 
-        addAttributeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(FixtureBuilder.this, Pop.class));
+        }
 
-            }
+            saveFixtureButton.setOnClickListener(view -> saveFixture(tempFixture));
+
+        addAttributeButton.setOnClickListener(view -> startActivity(new Intent(ActivityFixtureBuilder.this, PopUpWindow.class)));
+
+        buildFixtureButton.setOnClickListener(view -> {
+            Fixture fixture = new Fixture(fixtureNameTV.getText().toString(), fixtureModeTV.getText().toString(), tempAttrList);
+            createFixture(fixture);
         });
 
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Fixture fixture = new Fixture(fixtureNameTV.getText().toString(), fixtureModeTV.getText().toString(), tempAttrList);
-//                showMessage(fixture.toString());
-//                showMessage(tempAttrList.toString());
-                createFixture(fixture);
-            }
-        });
 
+
+    }
+
+
+
+    public void saveFixture(Fixture fixture) {
+        if(fixture == null){
+            fixture = new Fixture(
+                    fixtureNameTV.getText().toString(),
+                    Integer.parseInt(fixtureChannelsTV.getText().toString()),
+                    fixtureModeTV.getText().toString(),
+                    Integer.parseInt(fixtureAddressTV.getText().toString())
+            );
+            fixture.setAttributesList(tempAttrList);
+//            fixture.setId(true);
+            fixtureList.add(fixture);
+
+        }
+        else{
+            fixture.setName( fixtureNameTV.getText().toString());
+            fixture.setChannels(Integer.parseInt(fixtureChannelsTV.getText().toString()));
+            fixture.setMode(fixtureModeTV.getText().toString());
+            fixture.setAddress(Integer.parseInt(fixtureAddressTV.getText().toString()));
+        }
+
+        tempAttrList.clear();
+        finish();
     }
 
     public void showMessage(String message) {

@@ -44,9 +44,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     implementation 'com.google.android.material:material:1.8.0-rc01'
-    // https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api
     implementation 'javax.xml.bind:jaxb-api:2.3.0'
-    implementation "com.github.skydoves:balloon:1.5.2"
     implementation "com.google.guava:guava:31.1-android"
 
 }

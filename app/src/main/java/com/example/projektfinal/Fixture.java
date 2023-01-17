@@ -1,16 +1,21 @@
 package com.example.projektfinal;
 
+import androidx.annotation.NonNull;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Fixture {
-    public int id;
+public class Fixture implements Serializable {
+
+    public boolean id;
     public String name;
     public int address;
+    public int channels;
     public String mode;
-    public String description;
-    public int x;
-    public int y;
+
     public List<String> attributesList;
+
 
     /*
         Par LED SLIM Classic 6 DMX
@@ -23,25 +28,21 @@ public class Fixture {
 
      */
 
+
+    public boolean isId() {
+        return id;
+    }
+
+    public void setId(boolean id) {
+        this.id = id;
+    }
+
     public List<String> getAttributesList() {
         return attributesList;
     }
 
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
+    public void setAttributesList(List<String> attributesList) {
+        this.attributesList = attributesList;
     }
 
     public Fixture(String name, String mode, List<String> attributesList){
@@ -50,39 +51,11 @@ public class Fixture {
         this.attributesList = attributesList;
     }
 
-    public Fixture(int id, String name, int address, String mode, String description, int x, int y) {
-        this.id = id;
+    public Fixture(String name, int address, String mode, int channels) {
         this.name = name;
         this.address = address;
         this.mode = mode;
-        this.description = description;
-        this.x = x;
-        this.y = y;
-    }
-
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Fixture(int id, String name, int address, String mode, String description) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-        this.mode = mode;
-        this.description = description;
+        this.channels = channels;
     }
 
     public Fixture(String name, int address, String mode) {
@@ -111,16 +84,26 @@ public class Fixture {
         return mode;
     }
 
+    public int getChannels() {
+        return channels;
+    }
+
+    public void setChannels(int channels) {
+        this.channels = channels;
+    }
+
     public void setMode(String mode) {
         this.mode = mode;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return
                 "Nazwa urządzenia:" + name + '\'' +
                         ", adres: " + address +
-                        ", mode: " + mode + '\''
+                        ", mode: " + mode + '\'' +
+                        ", liczba kanałów: " + channels
                 ;
     }
 }

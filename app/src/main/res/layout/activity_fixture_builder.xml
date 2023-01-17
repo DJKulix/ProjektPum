@@ -9,10 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        >
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/fixtureBuilderTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -24,9 +25,9 @@
             android:id="@+id/nameLL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/textView10"
-            android:orientation="horizontal"
-            android:baselineAligned="false">
+            android:layout_below="@id/fixtureBuilderTV"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
@@ -34,7 +35,7 @@
                 android:layout_weight="4">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/nameTextInput"
+                    android:id="@+id/nameTIBuilder"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/nazwa_urz_dzenia" />
@@ -47,8 +48,8 @@
             android:id="@+id/addressLL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_below="@id/nameLL">
+            android:layout_below="@id/nameLL"
+            android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
@@ -56,13 +57,13 @@
                 android:layout_weight="4">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/addressTextInput"
+                    android:id="@+id/addressTIBuilder"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:digits="0123456789"
-                    android:hint="@string/adres_dmx"
                     android:inputType="number"
-                    android:maxLength="3" />
+                    android:maxLength="3"
+                    android:hint="@string/adres_dmx"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -73,8 +74,8 @@
             android:id="@+id/modeLL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_below="@id/addressLL">
+            android:layout_below="@id/descriptionLL"
+            android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
@@ -82,11 +83,10 @@
                 android:layout_weight="4">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/modeTextInput"
+                    android:id="@+id/modeTIBuilder"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/nazwa_trybu"
-                   />
+                    android:hint="@string/nazwa_trybu" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -97,20 +97,22 @@
             android:id="@+id/descriptionLL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_below="@id/modeLL">
+            android:layout_below="@id/addressLL"
+            android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="4">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/descriptionTextInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/opis_urz_dzenia"
-                />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/channelsTIBuilder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/liczba_kanalow"
+                    android:digits="0123456789"
+                    android:inputType="number"
+                    android:maxLength="3"/>
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
@@ -119,8 +121,8 @@
             android:id="@+id/attributesListLL"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:orientation="horizontal"
-            android:layout_below="@id/descriptionLL">
+            android:layout_below="@id/modeLL"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/attrListTV"
@@ -140,12 +142,19 @@
             android:layout_below="@id/attributesListLL"
             android:text="@string/dodaj_atrybut" />
 
+
         <Button
             android:id="@+id/saveFixtureButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/addAttributeButton"
+            android:layout_below="@id/buildFixtureButton"
             android:text="@string/zapisz" />
+        <Button
+            android:id="@+id/buildFixtureButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/addAttributeButton"
+            android:text="@string/eksport" />
 
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

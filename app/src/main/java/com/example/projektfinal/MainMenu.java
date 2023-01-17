@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class MainMenu extends AppCompatActivity {
 
-    public static ArrayList<Fixture> fixtureList;
+//    public static ArrayList<Fixture> fixtureList;
     public static int fixtureQuantity = 0;
     AlertDialog.Builder builder;
 
