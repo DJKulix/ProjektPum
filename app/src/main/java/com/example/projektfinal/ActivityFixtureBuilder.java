@@ -81,7 +81,7 @@ public class ActivityFixtureBuilder extends AppCompatActivity {
 
         }
 
-            saveFixtureButton.setOnClickListener(view -> saveFixture(tempFixture));
+
 
         addAttributeButton.setOnClickListener(view -> startActivity(new Intent(ActivityFixtureBuilder.this, PopUpWindow.class)));
 
@@ -90,7 +90,7 @@ public class ActivityFixtureBuilder extends AppCompatActivity {
             createFixture(fixture);
         });
 
-
+        saveFixtureButton.setOnClickListener(view -> saveFixture(tempFixture));
 
     }
 

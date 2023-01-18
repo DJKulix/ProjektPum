@@ -124,7 +124,6 @@ public class ActivityFixtureList extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), ActivityFixtureBuilder.class);
                 startActivity(intent);
-//                updateTable();
             }
         });
         validateAddressBtn.setOnClickListener(view -> validateAddress());

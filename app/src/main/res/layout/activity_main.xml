@@ -1,511 +1,573 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:id="@+id/relativeLayout">
 
-    <LinearLayout
-        android:id="@+id/btnGroup1"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <com.google.android.material.button.MaterialButton
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_margin="0dp"
-            android:textColor="@color/white"
-            app:cornerRadius="0dp"
-            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
-            android:visibility="invisible"
-            />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/materialButton5"
+        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:visibility="invisible"
+        app:cornerRadius="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_conversion_absoluteHeight="48dp"
+        tools:layout_conversion_absoluteWidth="82dp" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/addHundreds"
-            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="0dp"
-            android:layout_weight="1"
-            android:onClick="addHundredDigits"
-            android:text="+"
-            android:textColor="@color/white"
-            app:cornerRadius="0dp" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/addHundreds"
+        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="82dp"
+        android:onClick="addHundredDigits"
+        android:text="+"
+        android:textColor="@color/white"
+        app:cornerRadius="0dp"
+        app:layout_constraintStart_toStartOf="@+id/materialButton5"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_conversion_absoluteHeight="48dp"
+        tools:layout_conversion_absoluteWidth="82dp" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/addDecimals"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_margin="0dp"
-            android:text="+"
-            android:textColor="@color/white"
-            app:cornerRadius="0dp"
-            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"/>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/addDecimals"
+        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="83dp"
+        android:text="+"
+        android:textColor="@color/white"
+        app:cornerRadius="0dp"
+        app:layout_constraintStart_toStartOf="@+id/addHundreds"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_conversion_absoluteHeight="48dp"
+        tools:layout_conversion_absoluteWidth="82dp" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/addUnits"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_margin="0dp"
-            android:text="+"
-            android:textColor="@color/white"
-            app:cornerRadius="0dp"
-            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"/>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/addUnits"
+        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="82dp"
+        android:text="+"
+        android:textColor="@color/white"
+        app:cornerRadius="0dp"
+        app:layout_constraintStart_toStartOf="@+id/addDecimals"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_conversion_absoluteHeight="48dp"
+        tools:layout_conversion_absoluteWidth="82dp" />
 
-        <com.google.android.material.button.MaterialButton
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_margin="0dp"
-            android:textColor="@color/white"
-            app:cornerRadius="0dp"
-            android:visibility="invisible"
-            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"/>
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        app:cornerRadius="0dp"
+        android:visibility="invisible"
+        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
+        tools:layout_conversion_absoluteHeight="48dp"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="329dp"
+        tools:layout_conversion_absoluteWidth="82dp" />
 
-    </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/btnGroup2"
-        android:layout_below="@id/btnGroup1"
-        android:layout_alignParentStart="true"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/decStep"
+        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/decStep2"
+        android:textColor="@color/white"
+        app:cornerRadius="0dp"
+        tools:layout_conversion_absoluteHeight="48dp"
+        tools:layout_editor_absoluteY="48dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_conversion_absoluteWidth="82dp" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/decStep"
-            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="0dp"
-            android:layout_weight="1"
-            android:text="@string/decStep2"
-            android:textColor="@color/white"
-            app:cornerRadius="0dp" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnHundreds"
+        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:text="@string/textHundreds"
+        android:textColor="@color/white"
+        app:cornerRadius="0dp"
+        tools:layout_conversion_absoluteHeight="48dp"
+        tools:layout_editor_absoluteY="48dp"
+        tools:layout_editor_absoluteX="82dp"
+        tools:layout_conversion_absoluteWidth="82dp" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnHundreds"
-            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="0dp"
-            android:layout_weight="1"
-            android:clickable="false"
-            android:text="@string/textHundreds"
-            android:textColor="@color/white"
-            app:cornerRadius="0dp" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnDecimals"
+        android:layout_width="wrap_content"
+        android:clickable="false"
+        android:layout_height="wrap_content"
+        android:text="@string/textDec"
+        android:textColor="@color/white"
+        app:cornerRadius="0dp"
+        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
+        tools:layout_conversion_absoluteHeight="48dp"
+        tools:layout_editor_absoluteY="48dp"
+        tools:layout_editor_absoluteX="165dp"
+        tools:layout_conversion_absoluteWidth="82dp" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnDecimals"
-            android:layout_width="0dp"
-            android:clickable="false"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_margin="0dp"
-            android:text="@string/textDec"
-            android:textColor="@color/white"
-            app:cornerRadius="0dp"
-            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"/>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnUnits"
+        android:clickable="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/textUnits"
+        android:textColor="@color/white"
+        app:cornerRadius="0dp"
+        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
+        tools:layout_conversion_absoluteHeight="48dp"
+        tools:layout_editor_absoluteY="48dp"
+        tools:layout_editor_absoluteX="247dp"
+        tools:layout_conversion_absoluteWidth="82dp" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnUnits"
-            android:clickable="false"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_margin="0dp"
-            android:text="@string/textUnits"
-            android:textColor="@color/white"
-            app:cornerRadius="0dp"
-            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"/>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/addStep"
+        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/addStep2"
+        android:textColor="@color/white"
+        app:cornerRadius="0dp"
+        tools:layout_conversion_absoluteHeight="48dp"
+        tools:layout_editor_absoluteY="48dp"
+        tools:layout_editor_absoluteX="329dp"
+        tools:layout_conversion_absoluteWidth="82dp" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/addStep"
-            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="0dp"
-            android:layout_weight="1"
-            android:text="@string/addStep2"
-            android:textColor="@color/white"
-            app:cornerRadius="0dp" />
 
-    </LinearLayout>
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:textColor="@color/white"
+        app:cornerRadius="0dp"
+        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
+        tools:layout_conversion_absoluteHeight="48dp"
+        tools:layout_editor_absoluteY="96dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_conversion_absoluteWidth="82dp" />
 
-    <LinearLayout
-        android:id="@+id/btnGroup3"
-        android:layout_below="@id/btnGroup2"
-        android:layout_alignParentStart="true"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/decHundreds"
+        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-"
+        android:textColor="@color/white"
+        app:cornerRadius="0dp"
+        tools:layout_conversion_absoluteHeight="48dp"
+        tools:layout_editor_absoluteY="96dp"
+        tools:layout_editor_absoluteX="82dp"
+        tools:layout_conversion_absoluteWidth="82dp" />
 
-        <com.google.android.material.button.MaterialButton
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_margin="0dp"
-            android:visibility="invisible"
-            android:textColor="@color/white"
-            app:cornerRadius="0dp"
-            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
-            />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/decDecimals"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-"
+        android:textColor="@color/white"
+        app:cornerRadius="0dp"
+        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
+        tools:layout_conversion_absoluteHeight="48dp"
+        tools:layout_editor_absoluteY="96dp"
+        tools:layout_editor_absoluteX="165dp"
+        tools:layout_conversion_absoluteWidth="82dp" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/decHundreds"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_margin="0dp"
-            android:text="-"
-            android:textColor="@color/white"
-            app:cornerRadius="0dp"
-            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
-            />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/decUnits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-"
+        android:textColor="@color/white"
+        app:cornerRadius="0dp"
+        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
+        tools:layout_conversion_absoluteHeight="48dp"
+        tools:layout_editor_absoluteY="96dp"
+        tools:layout_editor_absoluteX="247dp"
+        tools:layout_conversion_absoluteWidth="82dp" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/decDecimals"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_margin="0dp"
-            android:text="-"
-            android:textColor="@color/white"
-            app:cornerRadius="0dp"
-            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"/>
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:textColor="@color/white"
+        app:cornerRadius="0dp"
+        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
+        tools:layout_conversion_absoluteHeight="48dp"
+        tools:layout_editor_absoluteY="96dp"
+        tools:layout_editor_absoluteX="329dp"
+        tools:layout_conversion_absoluteWidth="82dp" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/decUnits"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_margin="0dp"
-            android:text="-"
-            android:textColor="@color/white"
-            app:cornerRadius="0dp"
-            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"/>
-
-        <com.google.android.material.button.MaterialButton
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_margin="0dp"
-            android:visibility="invisible"
-            android:textColor="@color/white"
-            app:cornerRadius="0dp"
-            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"/>
-
-    </LinearLayout>
 
     <Space
         android:id="@+id/space2"
         android:layout_width="wrap_content"
-        android:layout_height="25dp"
-        android:layout_below="@id/btnGroup3" />
+        android:layout_height="wrap_content"
+        tools:layout_conversion_absoluteHeight="25dp"
+        tools:layout_editor_absoluteY="144dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_conversion_absoluteWidth="0dp" />
 
-    <LinearLayout
-        android:id="@+id/stepChangeLayout"
-        android:layout_width="match_parent"
-        android:layout_below="@id/space2"
-        android:layout_height="50dp"
-        android:orientation="horizontal"
-        android:weightSum="5">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="20dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="4">
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:layout_conversion_absoluteHeight="50dp"
+        tools:layout_editor_absoluteY="169dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_conversion_absoluteWidth="262dp">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/stepTextInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Podaj wartość skoku"
-                android:inputType="numberSigned|numberDecimal" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/changeStepButton"
-            app:cornerRadius="0dp"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/stepTextInput"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_gravity="center"
-            android:text="Zmień" />
-    </LinearLayout>
+            android:hint="Podaj wartość skoku"
+            android:inputType="numberSigned|numberDecimal"
+            tools:layout_conversion_absoluteHeight="50dp"
+            tools:layout_editor_absoluteY="169dp"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_conversion_absoluteWidth="262dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/changeStepButton"
+        app:cornerRadius="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Zmień"
+        tools:layout_conversion_absoluteHeight="48dp"
+        tools:layout_editor_absoluteY="170dp"
+        tools:layout_editor_absoluteX="262dp"
+        tools:layout_conversion_absoluteWidth="149dp" />
+
 
     <Space
         android:id="@+id/space1"
         android:layout_width="wrap_content"
-        android:layout_height="51dp"
-        android:layout_below="@id/stepChangeLayout" />
-
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/space1"
-        android:layout_marginTop="200dp">
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:weightSum="9">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="1" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="2" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="3" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="4" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="5" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="6" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="7" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="8" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="9" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="9">
-
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/switch1"
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
-                android:maxWidth="5dp"
-                android:paddingEnd="-5dp"
-                android:rotation="270"
-                android:scaleX="1.5" />
-
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/switch2"
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
-                android:maxWidth="5dp"
-                android:paddingEnd="-5dp"
-                android:rotation="270"
-                android:scaleX="1.5" />
-
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/switch3"
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
-                android:maxWidth="5dp"
-                android:paddingEnd="-5dp"
-                android:rotation="270"
-                android:scaleX="1.5" />
-
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/switch4"
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
-                android:maxWidth="5dp"
-                android:paddingEnd="-5dp"
-                android:rotation="270"
-                android:scaleX="1.5" />
-
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/switch5"
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
-                android:maxWidth="5dp"
-                android:paddingEnd="-5dp"
-                android:rotation="270"
-                android:scaleX="1.5" />
-
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/switch6"
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
-                android:maxWidth="5dp"
-                android:paddingEnd="-5dp"
-                android:rotation="270"
-                android:scaleX="1.5" />
-
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/switch7"
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
-                android:maxWidth="5dp"
-                android:paddingEnd="-5dp"
-                android:rotation="270"
-                android:scaleX="1.5" />
-
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/switch8"
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
-                android:maxWidth="5dp"
-                android:paddingEnd="-5dp"
-                android:rotation="270"
-                android:scaleX="1.5" />
-
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/switch9"
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
-                android:maxWidth="5dp"
-                android:paddingEnd="-5dp"
-                android:rotation="270"
-                android:scaleX="1.5" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:weightSum="9">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="1" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="2" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="3" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="4" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="5" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="6" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="7" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="8" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="9" />
-
-        </TableRow>
+        android:layout_height="wrap_content"
+        tools:layout_conversion_absoluteHeight="51dp"
+        tools:layout_editor_absoluteY="219dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_conversion_absoluteWidth="0dp" />
 
 
-    </TableLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="1"
+        tools:layout_conversion_absoluteHeight="19dp"
+        tools:layout_editor_absoluteY="345dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_conversion_absoluteWidth="46dp" />
 
-</RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="2"
+        tools:layout_conversion_absoluteHeight="19dp"
+        tools:layout_editor_absoluteY="345dp"
+        tools:layout_editor_absoluteX="46dp"
+        tools:layout_conversion_absoluteWidth="46dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="3"
+        tools:layout_conversion_absoluteHeight="19dp"
+        tools:layout_editor_absoluteY="345dp"
+        tools:layout_editor_absoluteX="91dp"
+        tools:layout_conversion_absoluteWidth="46dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="4"
+        tools:layout_conversion_absoluteHeight="19dp"
+        tools:layout_editor_absoluteY="345dp"
+        tools:layout_editor_absoluteX="137dp"
+        tools:layout_conversion_absoluteWidth="46dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="5"
+        tools:layout_conversion_absoluteHeight="19dp"
+        tools:layout_editor_absoluteY="345dp"
+        tools:layout_editor_absoluteX="183dp"
+        tools:layout_conversion_absoluteWidth="46dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="6"
+        tools:layout_conversion_absoluteHeight="19dp"
+        tools:layout_editor_absoluteY="345dp"
+        tools:layout_editor_absoluteX="229dp"
+        tools:layout_conversion_absoluteWidth="46dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="7"
+        tools:layout_conversion_absoluteHeight="19dp"
+        tools:layout_editor_absoluteY="345dp"
+        tools:layout_editor_absoluteX="274dp"
+        tools:layout_conversion_absoluteWidth="46dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="8"
+        tools:layout_conversion_absoluteHeight="19dp"
+        tools:layout_editor_absoluteY="345dp"
+        tools:layout_editor_absoluteX="320dp"
+        tools:layout_conversion_absoluteWidth="46dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="9"
+        tools:layout_conversion_absoluteHeight="19dp"
+        tools:layout_editor_absoluteY="345dp"
+        tools:layout_editor_absoluteX="366dp"
+        tools:layout_conversion_absoluteWidth="46dp" />
+
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switch1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="5dp"
+        android:onClick="calculateAddr"
+        android:paddingEnd="-5dp"
+        android:rotation="270"
+        android:scaleX="1.5"
+        tools:layout_conversion_absoluteHeight="80dp"
+        tools:layout_editor_absoluteY="365dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_conversion_absoluteWidth="46dp" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switch2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="5dp"
+        android:paddingEnd="-5dp"
+        android:onClick="calculateAddr"
+        android:rotation="270"
+        android:scaleX="1.5"
+        tools:layout_conversion_absoluteHeight="80dp"
+        tools:layout_editor_absoluteY="365dp"
+        tools:layout_editor_absoluteX="46dp"
+        tools:layout_conversion_absoluteWidth="46dp" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switch3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="5dp"
+        android:paddingEnd="-5dp"
+        android:onClick="calculateAddr"
+        android:rotation="270"
+        android:scaleX="1.5"
+        tools:layout_conversion_absoluteHeight="80dp"
+        tools:layout_editor_absoluteY="365dp"
+        tools:layout_editor_absoluteX="91dp"
+        tools:layout_conversion_absoluteWidth="46dp" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switch4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="5dp"
+        android:paddingEnd="-5dp"
+        android:rotation="270"
+        android:onClick="calculateAddr"
+        android:scaleX="1.5"
+        tools:layout_conversion_absoluteHeight="80dp"
+        tools:layout_editor_absoluteY="365dp"
+        tools:layout_editor_absoluteX="137dp"
+        tools:layout_conversion_absoluteWidth="46dp" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switch5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="5dp"
+        android:onClick="calculateAddr"
+        android:paddingEnd="-5dp"
+        android:rotation="270"
+        android:scaleX="1.5"
+        tools:layout_conversion_absoluteHeight="80dp"
+        tools:layout_editor_absoluteY="365dp"
+        tools:layout_editor_absoluteX="183dp"
+        tools:layout_conversion_absoluteWidth="46dp" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switch6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="5dp"
+        android:onClick="calculateAddr"
+        android:paddingEnd="-5dp"
+        android:rotation="270"
+        android:scaleX="1.5"
+        tools:layout_conversion_absoluteHeight="80dp"
+        tools:layout_editor_absoluteY="365dp"
+        tools:layout_editor_absoluteX="229dp"
+        tools:layout_conversion_absoluteWidth="46dp" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switch7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="5dp"
+        android:paddingEnd="-5dp"
+        android:rotation="270"
+        android:scaleX="1.5"
+        tools:layout_conversion_absoluteHeight="80dp"
+        tools:layout_editor_absoluteY="365dp"
+        tools:layout_editor_absoluteX="274dp"
+        tools:layout_conversion_absoluteWidth="46dp" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switch8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="5dp"
+        android:paddingEnd="-5dp"
+        android:rotation="270"
+        android:onClick="calculateAddr"
+        android:scaleX="1.5"
+        tools:layout_conversion_absoluteHeight="80dp"
+        tools:layout_editor_absoluteY="365dp"
+        tools:layout_editor_absoluteX="320dp"
+        tools:layout_conversion_absoluteWidth="46dp" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switch9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="5dp"
+        android:paddingEnd="-5dp"
+        android:onClick="calculateAddr"
+        android:rotation="270"
+        android:scaleX="1.5"
+        tools:layout_conversion_absoluteHeight="80dp"
+        tools:layout_editor_absoluteY="365dp"
+        tools:layout_editor_absoluteX="366dp"
+        tools:layout_conversion_absoluteWidth="46dp" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="1"
+        tools:layout_conversion_absoluteHeight="19dp"
+        tools:layout_editor_absoluteY="445dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_conversion_absoluteWidth="46dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="2"
+        tools:layout_conversion_absoluteHeight="19dp"
+        tools:layout_editor_absoluteY="445dp"
+        tools:layout_editor_absoluteX="46dp"
+        tools:layout_conversion_absoluteWidth="46dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="3"
+        tools:layout_conversion_absoluteHeight="19dp"
+        tools:layout_editor_absoluteY="445dp"
+        tools:layout_editor_absoluteX="91dp"
+        tools:layout_conversion_absoluteWidth="46dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="4"
+        tools:layout_conversion_absoluteHeight="19dp"
+        tools:layout_editor_absoluteY="445dp"
+        tools:layout_editor_absoluteX="137dp"
+        tools:layout_conversion_absoluteWidth="46dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="5"
+        tools:layout_conversion_absoluteHeight="19dp"
+        tools:layout_editor_absoluteY="445dp"
+        tools:layout_editor_absoluteX="183dp"
+        tools:layout_conversion_absoluteWidth="46dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="6"
+        tools:layout_conversion_absoluteHeight="19dp"
+        tools:layout_editor_absoluteY="445dp"
+        tools:layout_editor_absoluteX="229dp"
+        tools:layout_conversion_absoluteWidth="46dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="7"
+        tools:layout_conversion_absoluteHeight="19dp"
+        tools:layout_editor_absoluteY="445dp"
+        tools:layout_editor_absoluteX="274dp"
+        tools:layout_conversion_absoluteWidth="46dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="8"
+        tools:layout_conversion_absoluteHeight="19dp"
+        tools:layout_editor_absoluteY="445dp"
+        tools:layout_editor_absoluteX="320dp"
+        tools:layout_conversion_absoluteWidth="46dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="9"
+        tools:layout_conversion_absoluteHeight="19dp"
+        tools:layout_editor_absoluteY="445dp"
+        tools:layout_editor_absoluteX="366dp"
+        tools:layout_conversion_absoluteWidth="46dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

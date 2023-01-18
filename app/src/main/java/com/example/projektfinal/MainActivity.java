@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -24,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
 
     public static List<Fixture> fixtureList = new ArrayList<>();
 //    public static boolean[] addressValidation = new boolean[512];
+     Button btnHundreds;
+     Button btnDecimals;
+     Button btnUnits;
 
     public int dmxAddress = 0;
 
@@ -50,9 +54,9 @@ public class MainActivity extends AppCompatActivity {
         final Button btnDecDecimals = findViewById(R.id.decDecimals);
         final Button btnDecUnits = findViewById(R.id.decUnits);
 
-        final Button btnHundreds = findViewById(R.id.btnHundreds);
-        final Button btnDecimals = findViewById(R.id.btnDecimals);
-        final Button btnUnits = findViewById(R.id.btnUnits);
+         btnHundreds = findViewById(R.id.btnHundreds);
+         btnDecimals = findViewById(R.id.btnDecimals);
+         btnUnits = findViewById(R.id.btnUnits);
 
         final Button btnAddStep = findViewById(R.id.addStep);
         final Button btnDecStep = findViewById(R.id.decStep);
@@ -65,27 +69,22 @@ public class MainActivity extends AppCompatActivity {
         //Listeners
 
         btnAddHundreds.setOnClickListener(view -> {
-//                if(dmxAddress >= 500){
-//                    showMessage("Przekroczono maksymalną wartość");
-//                }
-//                else {
-//
-//                    dmxAddress += 100;
-//                    String newAddress = String.valueOf(dmxAddress);
-//
-//                    btnHundreds.setText(String.valueOf(newAddress.charAt(0)));
-//                    btnDecimals.setText(String.valueOf(newAddress.charAt(1)));
-//                    btnUnits.setText(String.valueOf(newAddress.charAt(2)));
-//
-//                }
-//
-//                calculateDipSwitch();
-            try {
-                writeToFile("text", getApplicationContext());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                if(dmxAddress >= 500){
+                    showMessage("Przekroczono maksymalną wartość");
+                }
+                else {
+                    dmxAddress += 100;
+                    String newAddress = String.valueOf(dmxAddress);
+
+                    btnHundreds.setText(String.valueOf(newAddress.charAt(0)));
+                    btnDecimals.setText(String.valueOf(newAddress.charAt(1)));
+                    btnUnits.setText(String.valueOf(newAddress.charAt(2)));
+
+                }
+                calculateDipSwitch();
         });
+
+
 
         btnAddDecimals.setOnClickListener(view -> {
 //                if (dmxAddress >= 510) {
@@ -162,7 +161,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 dmxAddress -= 10;
             }
-
             calculateDipSwitch();
         });
 
@@ -175,8 +173,6 @@ public class MainActivity extends AppCompatActivity {
 
                 else{
                     btnUnits.setText("9");
-//                        int hundredsValue = Integer.parseInt(btnHundreds.getText().toString()) - 1;
-//                        btnHundreds.setText(String.valueOf(hundredsValue));
                     int decimalsValue = Integer.parseInt(btnDecimals.getText().toString()) -1;
                     if(decimalsValue < 0){
                         btnDecimals.setText("9");
@@ -204,7 +200,6 @@ public class MainActivity extends AppCompatActivity {
         else{
             dmxAddress += stepValue;
             String newAddress = String.valueOf(dmxAddress);
-            showMessage(String.valueOf(newAddress.charAt(0)));
 
             if(dmxAddress >= 100) {
                 btnHundreds.setText(String.valueOf(newAddress.charAt(0)));
@@ -232,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
             if(dmxAddress - stepValue >= 0){
                 dmxAddress += stepValue;
                 String newAddress = String.valueOf(dmxAddress);
-                showMessage(String.valueOf(newAddress.charAt(0)));
+
 
                 if(dmxAddress >= 100) {
                     btnHundreds.setText(String.valueOf(newAddress.charAt(0)));
@@ -263,6 +258,42 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    public void calculateAddr(View view) {
+
+        int tempAddr = 0;
+        SwitchMaterial[] tab = new SwitchMaterial[9];
+        tab[8] = findViewById(R.id.switch9);
+        tab[7] = findViewById(R.id.switch8);
+        tab[6] = findViewById(R.id.switch7);
+        tab[5] = findViewById(R.id.switch6);
+        tab[4] = findViewById(R.id.switch5);
+        tab[3] = findViewById(R.id.switch4);
+        tab[2] = findViewById(R.id.switch3);
+        tab[1] = findViewById(R.id.switch2);
+        tab[0] = findViewById(R.id.switch1);
+        for (int i = 0; i < 9; i++) {
+            if (tab[i].isChecked()) {
+                tempAddr += Math.pow(2, i);
+            }
+        }
+        dmxAddress = tempAddr;
+        String newAddress = String.valueOf(dmxAddress);
+        if (dmxAddress > 99) {
+            btnHundreds.setText(String.valueOf(newAddress.charAt(0)));
+            btnDecimals.setText(String.valueOf(newAddress.charAt(1)));
+            btnUnits.setText(String.valueOf(newAddress.charAt(2)));
+        } else if (dmxAddress < 10) {
+            btnHundreds.setText("0");
+            btnDecimals.setText("0");
+            btnUnits.setText(String.valueOf(newAddress.charAt(0)));
+        }
+        else{
+            btnHundreds.setText("0");
+            btnDecimals.setText(String.valueOf(newAddress.charAt(0)));
+            btnUnits.setText(String.valueOf(newAddress.charAt(1)));
+        }
+    }
+
 
     public void calculateDipSwitch(){
         SwitchMaterial[] tab = new SwitchMaterial[9];
@@ -285,47 +316,12 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-
-
     public void showMessage(String message){
         Context context = getApplicationContext();
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(context, message, duration);
         toast.show();
 
-
-    }
-
-    private void writeToFile(String data,Context context) throws IOException {
-
-        String fileName = "file.txt";
-        File path = getApplicationContext().getFilesDir();
-        System.out.println(path.toString());
-
-        FileOutputStream writer = new FileOutputStream(new File(path, fileName));
-        writer.write(data.getBytes());
-        writer.close();
-
-        Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show();
-
-//        File path = context.getFilesDir();
-//        File path2 = context.getExternalFilesDir(null);
-//        File file = new File(path, "my-file-name.txt");
-//        File file2 = new File(path2, "my-file-name.txt");
-//
-//        FileOutputStream stream = new FileOutputStream(file);
-//        try {
-//            stream.write("text-to-write".getBytes());
-//        } finally {
-//            stream.close();
-//        }
-//
-//        FileOutputStream stream2 = new FileOutputStream(file2);
-//        try {
-//            stream.write("text-to-write".getBytes());
-//        } finally {
-//            stream.close();
-//        }
 
     }
 
