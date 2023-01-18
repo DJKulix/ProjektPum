@@ -16,4 +16,7 @@
     <string name="attributesList">Tutaj pojawią się dodane atrybuty</string>
     <string name="sprawdzanie_adresu">Sprawdzanie adresu</string>
     <string name="auto_adresowanie">Auto adresowanie</string>
+    <string name="lista_urz_dze">Lista urządzeń</string>
+    <string name="kalkulator_dmx">Kalkulator DMX</string>
+    <string name="fixture_builder">Fixture Builder</string>
 </resources>

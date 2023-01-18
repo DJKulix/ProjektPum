@@ -3,11 +3,15 @@ package com.example.projektfinal;
 
 import static com.example.projektfinal.MainActivity.fixtureList;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
@@ -15,9 +19,25 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 public class ActivityFixtureList extends AppCompatActivity {
 
@@ -25,9 +45,7 @@ public class ActivityFixtureList extends AppCompatActivity {
     TableLayout tableLayout;
 
 
-    public static void initialize() {
-//        fixtureList.add();
-    }
+
 
     public void updateTable() {
         tableLayout.removeAllViews();
@@ -38,20 +56,27 @@ public class ActivityFixtureList extends AppCompatActivity {
 
         TextView textViewHeaderName = new TextView(this);
         textViewHeaderName.setText("Nazwa");
+        textViewHeaderName.setWidth(275);
+        textViewHeaderName.setGravity(Gravity.CENTER);
         tableHeader.addView(textViewHeaderName);
 
 
         TextView textViewHeaderAddr = new TextView(this);
         textViewHeaderAddr.setPadding(0, 0, 25, 0);
         textViewHeaderAddr.setText("Adres");
+        textViewHeaderAddr.setWidth(150);
+
         tableHeader.addView(textViewHeaderAddr);
 
         TextView textViewHeaderMode = new TextView(this);
         textViewHeaderMode.setText("Tryb");
+        textViewHeaderMode.setWidth(225);
+        textViewHeaderMode.setGravity(Gravity.CENTER);
         tableHeader.addView(textViewHeaderMode);
 
         TextView textViewHeaderCh = new TextView(this);
         textViewHeaderCh.setText("L. kanałów");
+        textViewHeaderCh.setWidth(150);
         tableHeader.addView(textViewHeaderCh);
 
         tableLayout.addView(tableHeader);
@@ -86,15 +111,12 @@ public class ActivityFixtureList extends AppCompatActivity {
                 row.addView(textViewCh);
 
                 Button addToBuilder = new Button(getApplicationContext());
-                addToBuilder.setText("Builder");
+                addToBuilder.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_edit_24, 0, 0 ,0);
 
-                addToBuilder.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(getApplicationContext(), ActivityFixtureBuilder.class);
-                        intent.putExtra("KEY_NAME", value);
-                        startActivity(intent);
-                    }
+                addToBuilder.setOnClickListener(view -> {
+                    Intent intent = new Intent(getApplicationContext(), ActivityFixtureBuilder.class);
+                    intent.putExtra("KEY_NAME", value);
+                    startActivity(intent);
                 });
 
                 row.addView(addToBuilder);
@@ -110,14 +132,55 @@ public class ActivityFixtureList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fixture_list);
 
+
+
+        // Initialize and assign variable
+        BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_navigation);
+
+        // Set Home selected
+        bottomNavigationView.setSelectedItemId(R.id.dashboard);
+
+        // Perform item selected listener
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch(item.getItemId())
+                {
+                    case R.id.home:
+                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                        overridePendingTransition(0,0);
+                        return true;
+                    case R.id.dashboard:
+                        return true;
+                    case R.id.about:
+                        startActivity(new Intent(getApplicationContext(),ActivityFixtureBuilder.class));
+                        overridePendingTransition(0,0);
+                        return true;
+                }
+                return false;
+            }
+        });
+
         Button addToListBtn = findViewById(R.id.addToListBtn);
         Button validateAddressBtn = findViewById(R.id.validateAddressBtn);
         Button autoAddressBtn = findViewById(R.id.autoAddress);
 
+        Button importToJsonBtn = findViewById(R.id.importJSONBtn);
+        Button exportToJsonBtn = findViewById(R.id.exportJSONBtn);
+
+        importToJsonBtn.setOnClickListener(view -> importJson());
+        exportToJsonBtn.setOnClickListener(view -> {
+            try {
+                exportJson();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
         tableLayout = findViewById(R.id.fixtureListTL);
         updateTable();
 
-//        addToListBtn.setOnClickListener(view -> addFixtureToList());
 
         addToListBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,6 +200,63 @@ public class ActivityFixtureList extends AppCompatActivity {
         super.onResume();
         validateAddress();
         updateTable();
+    }
+
+    ActivityResultLauncher<Intent> sActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        Uri uri = data.getData();
+                    }
+                }
+            }
+    );
+
+    private String readJsonFile() {
+        String jsonString = "";
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("application/json");
+        try {
+
+            InputStream inputStream = getContentResolver().openInputStream(Uri.parse(Intent.ACTION_OPEN_DOCUMENT));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            StringBuilder stringBuilder = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+            jsonString = stringBuilder.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return jsonString;
+    }
+
+    public void importJson() {
+//        Intent data = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+//        data.setType("*/json");
+//        data = Intent.createChooser(data,"Wybierz plik .json");
+//        sActivityResultLauncher.launch(data);
+//        data.getData().toString();
+//        Gson gson = new Gson();
+//        JsonReader reader = new JsonReader(new FileReader())
+        String jsonString = readJsonFile();
+        Gson gson = new Gson();
+        List<Fixture> fixtureArray = gson.fromJson(jsonString, List.class);
+        fixtureList.addAll(fixtureArray);
+        updateTable();
+    }
+
+    public static void exportJson() throws IOException {
+        String json = new Gson().toJson(fixtureList);
+        String fileName = "fixtureList.json";
+        FileWriter fileWriter = new FileWriter(new File(Environment.getExternalStorageDirectory(), fileName));
+        fileWriter.write(json);
+        fileWriter.flush();
+        fileWriter.close();
     }
 
     public void addFixtureToList() {
