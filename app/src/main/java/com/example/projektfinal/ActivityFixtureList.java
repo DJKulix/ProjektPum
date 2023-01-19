@@ -31,17 +31,19 @@ import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
+import java.lang.reflect.Type;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 public class ActivityFixtureList extends AppCompatActivity {
 
-    public int addr = 1;
     TableLayout tableLayout;
 
 
@@ -141,25 +143,22 @@ public class ActivityFixtureList extends AppCompatActivity {
         bottomNavigationView.setSelectedItemId(R.id.dashboard);
 
         // Perform item selected listener
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
 
-                switch(item.getItemId())
-                {
-                    case R.id.home:
-                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                        overridePendingTransition(0,0);
-                        return true;
-                    case R.id.dashboard:
-                        return true;
-                    case R.id.about:
-                        startActivity(new Intent(getApplicationContext(),ActivityFixtureBuilder.class));
-                        overridePendingTransition(0,0);
-                        return true;
-                }
-                return false;
+            switch(item.getItemId())
+            {
+                case R.id.home:
+                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                    overridePendingTransition(0,0);
+                    return true;
+                case R.id.dashboard:
+                    return true;
+                case R.id.about:
+                    startActivity(new Intent(getApplicationContext(),ActivityFixtureBuilder.class));
+                    overridePendingTransition(0,0);
+                    return true;
             }
+            return false;
         });
 
         Button addToListBtn = findViewById(R.id.addToListBtn);
@@ -169,7 +168,9 @@ public class ActivityFixtureList extends AppCompatActivity {
         Button importToJsonBtn = findViewById(R.id.importJSONBtn);
         Button exportToJsonBtn = findViewById(R.id.exportJSONBtn);
 
-        importToJsonBtn.setOnClickListener(view -> importJson());
+        importToJsonBtn.setOnClickListener(view -> {
+            importJson();
+        });
         exportToJsonBtn.setOnClickListener(view -> {
             try {
                 exportJson();
@@ -182,12 +183,9 @@ public class ActivityFixtureList extends AppCompatActivity {
         updateTable();
 
 
-        addToListBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ActivityFixtureBuilder.class);
-                startActivity(intent);
-            }
+        addToListBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), ActivityFixtureBuilder.class);
+            startActivity(intent);
         });
         validateAddressBtn.setOnClickListener(view -> validateAddress());
 
@@ -204,50 +202,37 @@ public class ActivityFixtureList extends AppCompatActivity {
 
     ActivityResultLauncher<Intent> sActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        Intent data = result.getData();
-                        Uri uri = data.getData();
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = result.getData();
+                    Uri uri = data.getData();
+//                    File file = new File(uri.getPath());
+//                    showMessage(file.toString());
+                    try {
+                        InputStream inputStream = getContentResolver().openInputStream(uri);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
                     }
-                }
+                    try {
+                        Reader reader = new FileReader(file);
+                        Fixture[] tempArray = new Gson().fromJson(reader,  Fixture[].class);
+                        fixtureList.addAll(Arrays.asList(tempArray));
+                        showMessage(Arrays.toString(tempArray));
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    updateTable();
+//                    showMessage(uriString);
+                    }
             }
     );
 
-    private String readJsonFile() {
-        String jsonString = "";
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("application/json");
-        try {
-
-            InputStream inputStream = getContentResolver().openInputStream(Uri.parse(Intent.ACTION_OPEN_DOCUMENT));
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-            StringBuilder stringBuilder = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                stringBuilder.append(line);
-            }
-            jsonString = stringBuilder.toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return jsonString;
-    }
-
     public void importJson() {
-//        Intent data = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-//        data.setType("*/json");
-//        data = Intent.createChooser(data,"Wybierz plik .json");
-//        sActivityResultLauncher.launch(data);
-//        data.getData().toString();
-//        Gson gson = new Gson();
-//        JsonReader reader = new JsonReader(new FileReader())
-        String jsonString = readJsonFile();
-        Gson gson = new Gson();
-        List<Fixture> fixtureArray = gson.fromJson(jsonString, List.class);
-        fixtureList.addAll(fixtureArray);
-        updateTable();
+        Intent data = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        data.setType("application/json");
+        data = Intent.createChooser(data, "Wybierz plik json");
+        sActivityResultLauncher.launch(data);
+
     }
 
     public static void exportJson() throws IOException {
