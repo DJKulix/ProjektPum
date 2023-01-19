@@ -1,6 +1,5 @@
 package com.example.projektfinal;
 
-
 import static com.example.projektfinal.MainActivity.fixtureList;
 
 import android.app.Activity;
@@ -11,43 +10,142 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Gravity;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Reader;
-import java.lang.reflect.Type;
 import java.util.Arrays;
-import java.util.List;
 
 public class ActivityFixtureList extends AppCompatActivity {
 
     TableLayout tableLayout;
+    ActivityResultLauncher<Intent> sActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+        if (result.getResultCode() == Activity.RESULT_OK) {
+            Intent data = result.getData();
+            Uri uri = data.getData();
+            File file = new File(uri.getPath());
+            final String[] split = file.getPath().split(":");//split the path.
+            String filePath = "storage/emulated/0/" + split[1];//assign it to a string(your choice).
+            file = new File(filePath);
+            showMessage(file.toString());
+            try {
+                Reader reader = new FileReader(filePath);
+                Fixture[] tempArray = new Gson().fromJson(reader, Fixture[].class);
+                fixtureList.addAll(Arrays.asList(tempArray));
+                updateTable();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    });
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
 
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_fixture_list);
 
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.dashboard);
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.home:
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    overridePendingTransition(0, 0);
+                    return true;
+                case R.id.dashboard:
+                    return true;
+                case R.id.about:
+                    startActivity(new Intent(getApplicationContext(), ActivityFixtureBuilder.class));
+                    overridePendingTransition(0, 0);
+                    return true;
+            }
+            return false;
+        });
+
+        Button addToListBtn = findViewById(R.id.addToListBtn);
+        Button validateAddressBtn = findViewById(R.id.validateAddressBtn);
+        Button autoAddressBtn = findViewById(R.id.autoAddress);
+
+        Button importToJsonBtn = findViewById(R.id.importJSONBtn);
+        Button exportToJsonBtn = findViewById(R.id.exportJSONBtn);
+
+        importToJsonBtn.setOnClickListener(view -> importJson());
+        exportToJsonBtn.setOnClickListener(view -> {
+            try {
+                exportJson();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        tableLayout = findViewById(R.id.fixtureListTL);
+        updateTable();
+
+        addToListBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), ActivityFixtureBuilder.class);
+            startActivity(intent);
+        });
+        validateAddressBtn.setOnClickListener(view -> validateAddress());
+        autoAddressBtn.setOnClickListener(view -> autoAddress());
+    }//Ten nawias kończy onCreate()
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        validateAddress();
+        updateTable();
+    }
+
+    public void autoAddress() {
+        int addr = 1;
+        for (Fixture fixture : fixtureList) {
+            fixture.setAddress(addr);
+            addr += fixture.getChannels() + 1;
+            fixture.setId(true);
+            if (addr > 512) showMessage("Przekroczono dopuszczalną liczbę adresów");
+            updateTable();
+        }
+    }
+
+    public static void exportJson() throws IOException {
+        String json = new Gson().toJson(fixtureList);
+        String fileName = "fixtureList.json";
+        FileWriter fileWriter = new FileWriter(new File(Environment.getExternalStorageDirectory(), fileName));
+        fileWriter.write(json);
+        fileWriter.flush();
+        fileWriter.close();
+    }
+
+    public void importJson() {
+        Intent data = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        data.setType("application/json");
+        data = Intent.createChooser(data, "Wybierz plik json");
+        sActivityResultLauncher.launch(data);
+
+    }
+
+    public void showMessage(String message) {
+        Context context = getApplicationContext();
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, message, duration);
+        toast.show();
+    }
 
     public void updateTable() {
         tableLayout.removeAllViews();
@@ -84,7 +182,6 @@ public class ActivityFixtureList extends AppCompatActivity {
         tableLayout.addView(tableHeader);
         if (!fixtureList.isEmpty()) {
 
-
             for (Fixture value : fixtureList) {
                 TableRow row = new TableRow(getApplicationContext());
                 row.setPadding(25, 25, 25, 25);
@@ -113,7 +210,7 @@ public class ActivityFixtureList extends AppCompatActivity {
                 row.addView(textViewCh);
 
                 Button addToBuilder = new Button(getApplicationContext());
-                addToBuilder.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_edit_24, 0, 0 ,0);
+                addToBuilder.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_edit_24, 0, 0, 0);
 
                 addToBuilder.setOnClickListener(view -> {
                     Intent intent = new Intent(getApplicationContext(), ActivityFixtureBuilder.class);
@@ -125,173 +222,6 @@ public class ActivityFixtureList extends AppCompatActivity {
 
                 tableLayout.addView(row);
             }
-        }
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fixture_list);
-
-
-
-        // Initialize and assign variable
-        BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_navigation);
-
-        // Set Home selected
-        bottomNavigationView.setSelectedItemId(R.id.dashboard);
-
-        // Perform item selected listener
-        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-
-            switch(item.getItemId())
-            {
-                case R.id.home:
-                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                    overridePendingTransition(0,0);
-                    return true;
-                case R.id.dashboard:
-                    return true;
-                case R.id.about:
-                    startActivity(new Intent(getApplicationContext(),ActivityFixtureBuilder.class));
-                    overridePendingTransition(0,0);
-                    return true;
-            }
-            return false;
-        });
-
-        Button addToListBtn = findViewById(R.id.addToListBtn);
-        Button validateAddressBtn = findViewById(R.id.validateAddressBtn);
-        Button autoAddressBtn = findViewById(R.id.autoAddress);
-
-        Button importToJsonBtn = findViewById(R.id.importJSONBtn);
-        Button exportToJsonBtn = findViewById(R.id.exportJSONBtn);
-
-        importToJsonBtn.setOnClickListener(view -> {
-            importJson();
-        });
-        exportToJsonBtn.setOnClickListener(view -> {
-            try {
-                exportJson();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-
-        tableLayout = findViewById(R.id.fixtureListTL);
-        updateTable();
-
-
-        addToListBtn.setOnClickListener(view -> {
-            Intent intent = new Intent(getApplicationContext(), ActivityFixtureBuilder.class);
-            startActivity(intent);
-        });
-        validateAddressBtn.setOnClickListener(view -> validateAddress());
-
-        autoAddressBtn.setOnClickListener(view -> autoAddress());
-
-    }//Ten nawias kończy onCreate()
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        validateAddress();
-        updateTable();
-    }
-
-    ActivityResultLauncher<Intent> sActivityResultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == Activity.RESULT_OK) {
-                    Intent data = result.getData();
-                    Uri uri = data.getData();
-//                    File file = new File(uri.getPath());
-//                    showMessage(file.toString());
-                    try {
-                        InputStream inputStream = getContentResolver().openInputStream(uri);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        Reader reader = new FileReader(file);
-                        Fixture[] tempArray = new Gson().fromJson(reader,  Fixture[].class);
-                        fixtureList.addAll(Arrays.asList(tempArray));
-                        showMessage(Arrays.toString(tempArray));
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    updateTable();
-//                    showMessage(uriString);
-                    }
-            }
-    );
-
-    public void importJson() {
-        Intent data = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        data.setType("application/json");
-        data = Intent.createChooser(data, "Wybierz plik json");
-        sActivityResultLauncher.launch(data);
-
-    }
-
-    public static void exportJson() throws IOException {
-        String json = new Gson().toJson(fixtureList);
-        String fileName = "fixtureList.json";
-        FileWriter fileWriter = new FileWriter(new File(Environment.getExternalStorageDirectory(), fileName));
-        fileWriter.write(json);
-        fileWriter.flush();
-        fileWriter.close();
-    }
-
-    public void addFixtureToList() {
-        Fixture fixture = new Fixture("Par LED", 10, "Classic 10", 5);
-        fixtureList.add(fixture);
-        TableRow row = new TableRow(getApplicationContext());
-        row.setPadding(25, 25, 25, 25);
-
-        TextView textViewName = new TextView(getApplicationContext());
-        textViewName.setText(fixture.getName());
-        textViewName.setGravity(Gravity.CENTER);
-        row.addView(textViewName);
-
-        TextView textViewAddr = new TextView(getApplicationContext());
-        textViewAddr.setText(String.valueOf(fixture.getAddress()));
-        textViewAddr.setPadding(0, 0, 25, 0);
-        textViewAddr.setGravity(Gravity.CENTER);
-        row.addView(textViewAddr);
-
-        TextView textViewMode = new TextView(getApplicationContext());
-        textViewMode.setText(fixture.getMode());
-        textViewMode.setGravity(Gravity.CENTER);
-        row.addView(textViewMode);
-
-        TextView textViewCh = new TextView(getApplicationContext());
-        textViewCh.setText(String.valueOf(fixture.getChannels()));
-        textViewCh.setGravity(Gravity.CENTER);
-        row.addView(textViewCh);
-
-        Button addToBuilder = new Button(getApplicationContext());
-        addToBuilder.setText("Edycja");
-
-        addToBuilder.setOnClickListener(view1 -> {
-            Intent intent = new Intent(getApplicationContext(), ActivityFixtureBuilder.class);
-            intent.putExtra("KEY_NAME", fixture);
-            startActivity(intent);
-        });
-
-        row.addView(addToBuilder);
-        tableLayout.addView(row);
-    }
-
-    public void autoAddress() {
-        int addr = 1;
-        for (Fixture fixture : fixtureList) {
-            fixture.setAddress(addr);
-            addr += fixture.getChannels() + 1;
-            fixture.setId(true);
-            if (addr > 512) showMessage("Przekroczono dopuszczalną liczbę adresów");
-            updateTable();
         }
     }
 
@@ -312,13 +242,7 @@ public class ActivityFixtureList extends AppCompatActivity {
                     fixture.setId(true);
                 }
             }
+        }
     }
-}
 
-    public void showMessage(String message) {
-        Context context = getApplicationContext();
-        int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(context, message, duration);
-        toast.show();
-    }
 }
