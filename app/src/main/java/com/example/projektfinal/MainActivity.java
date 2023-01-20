@@ -253,21 +253,24 @@ public class MainActivity extends AppCompatActivity {
             int stepValue = Integer.parseInt(step);
 
             if (dmxAddress - stepValue >= 0) {
-                dmxAddress += stepValue;
+                dmxAddress -= stepValue;
                 String newAddress = String.valueOf(dmxAddress);
-
-
                 if (dmxAddress >= 100) {
                     btnHundreds.setText(String.valueOf(newAddress.charAt(0)));
                     btnDecimals.setText(String.valueOf(newAddress.charAt(1)));
                     btnUnits.setText(String.valueOf(newAddress.charAt(2)));
                 } else if (dmxAddress >= 10) {
+                    btnHundreds.setText("0");
                     btnDecimals.setText(String.valueOf(newAddress.charAt(0)));
                     btnUnits.setText(String.valueOf(newAddress.charAt(1)));
                 } else {
+                    btnHundreds.setText("0");
+                    btnDecimals.setText("0");
                     btnUnits.setText(String.valueOf(newAddress.charAt(0)));
                 }
-
+            }
+            else{
+                showMessage("Kolejny skok spowoduje niepoprawny adres");
             }
         });
 

@@ -87,10 +87,14 @@ public class ActivityFixtureList extends AppCompatActivity {
 
         importToJsonBtn.setOnClickListener(view -> importJson());
         exportToJsonBtn.setOnClickListener(view -> {
-            try {
-                exportJson();
-            } catch (IOException e) {
-                e.printStackTrace();
+            if(fixtureList.isEmpty())
+                showMessage("Lista jest pusta");
+            else {
+                try {
+                    exportJson();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -109,6 +113,7 @@ public class ActivityFixtureList extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 //        validateAddress();
+//        showMessage("RESUME");
         updateTable();
     }
 
@@ -175,13 +180,13 @@ public class ActivityFixtureList extends AppCompatActivity {
         tableHeader.addView(textViewHeaderMode);
 
         TextView textViewHeaderCh = new TextView(this);
-        textViewHeaderCh.setText("L. kanałów");
+        textViewHeaderCh.setText("Liczba kanałów");
         textViewHeaderCh.setWidth(150);
         tableHeader.addView(textViewHeaderCh);
 
         tableLayout.addView(tableHeader);
         if (!fixtureList.isEmpty()) {
-
+            int i = 0;
             for (Fixture value : fixtureList) {
                 TableRow row = new TableRow(getApplicationContext());
                 row.setPadding(25, 25, 25, 25);
@@ -214,15 +219,18 @@ public class ActivityFixtureList extends AppCompatActivity {
                 Button addToBuilder = new Button(getApplicationContext());
                 addToBuilder.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_edit_24, 0, 0, 0);
 
+                int finalI = i;
                 addToBuilder.setOnClickListener(view -> {
                     Intent intent = new Intent(getApplicationContext(), ActivityFixtureBuilder.class);
-                    intent.putExtra("KEY_NAME", value);
+                    intent.putExtra("KEY_NAME", fixtureList.get(finalI));
+                    intent.putExtra("ID", finalI);
                     startActivity(intent);
                 });
 
                 row.addView(addToBuilder);
 
                 tableLayout.addView(row);
+                i++;
             }
         }
     }

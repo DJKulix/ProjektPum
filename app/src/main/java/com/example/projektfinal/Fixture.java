@@ -13,7 +13,6 @@ public class Fixture implements Serializable {
     public int address;
     public int channels;
     public String mode;
-
     public List<String> attributesList;
 
 
@@ -56,6 +55,14 @@ public class Fixture implements Serializable {
         this.address = address;
         this.mode = mode;
         this.channels = channels;
+    }
+
+    public Fixture(String name, int address, String mode, int channels, List<String> attributesList) {
+        this.name = name;
+        this.address = address;
+        this.mode = mode;
+        this.channels = channels;
+        this.attributesList = attributesList;
     }
 
     public Fixture(String name, int address, String mode) {

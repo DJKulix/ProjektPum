@@ -78,7 +78,6 @@ public class ActivityFixtureBuilder extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
                 switch(item.getItemId())
                 {
                     case R.id.dashboard:
@@ -113,7 +112,8 @@ public class ActivityFixtureBuilder extends AppCompatActivity {
             fixtureModeTV.setText(tempFixture.getMode());
             fixtureAddressTV.setText(String.valueOf(tempFixture.getAddress()));
             fixtureChannelsTV.setText(String.valueOf(tempFixture.getChannels()));
-            fixtureAttributesTV.setText((tempFixture.getAttributesList().toString()));
+            tempAttrList.addAll(tempFixture.getAttributesList());
+            fixtureAttributesTV.setText(tempAttrList.toString());
 
         }
 
@@ -122,14 +122,51 @@ public class ActivityFixtureBuilder extends AppCompatActivity {
         addAttributeButton.setOnClickListener(view -> startActivity(new Intent(ActivityFixtureBuilder.this, PopUpWindow.class)));
 
         buildFixtureButton.setOnClickListener(view -> {
-            Fixture fixture = new Fixture(fixtureNameTV.getText().toString(), fixtureModeTV.getText().toString(), tempAttrList);
-            createFixture(fixture);
+            if(checkAllFields()) {
+                Fixture fixture = new Fixture(fixtureNameTV.getText().toString(), fixtureModeTV.getText().toString(), tempAttrList);
+                createFixture(fixture);
+            }
+
+
         });
 
         saveFixtureButton.setOnClickListener(view -> saveFixture(tempFixture));
 
     }
 
+
+    private boolean checkAllFields() {
+        if (fixtureNameTV.length() == 0) {
+            fixtureNameTV.setError("Podaj nazwę urządzenia");
+            return false;
+        }
+
+        if (fixtureAddressTV.length() == 0 || Integer.parseInt(fixtureAddressTV.getText().toString()) > 512) {
+            fixtureAddressTV.setError("Podaj poprawny adres DMX");
+            return false;
+        }
+
+        if (fixtureChannelsTV.length() == 0 || Integer.parseInt(fixtureChannelsTV.getText().toString())> 512) {
+            fixtureChannelsTV.setError("Podaj poprawną liczbę kanałów");
+            return false;
+        }
+
+        if (fixtureModeTV.length() == 0) {
+            fixtureModeTV.setError("Podaj nazwę trybu");
+            return false;
+        }
+        if(tempAttrList.isEmpty()){
+            fixtureAttributesTV.setError("Podaj co najmniej 1 atrybut");
+            return false;
+        }
+        if(tempAttrList.size() != Integer.parseInt(fixtureChannelsTV.getText().toString())) {
+            showMessage("Liczba atrybutów musi równać się liczbie kanałów");
+            return false;
+        }
+
+        // after all validation return true.
+        return true;
+    }
 
 
     public void saveFixture(Fixture fixture) {
@@ -138,22 +175,26 @@ public class ActivityFixtureBuilder extends AppCompatActivity {
                     fixtureNameTV.getText().toString(),
                     Integer.parseInt(fixtureChannelsTV.getText().toString()),
                     fixtureModeTV.getText().toString(),
-                    Integer.parseInt(fixtureAddressTV.getText().toString())
+                    Integer.parseInt(fixtureAddressTV.getText().toString()),
+                    tempAttrList
             );
-//            fixture.setAttributesList(tempAttrList); new commented thing
-            fixture.attributesList.addAll(tempAttrList);
-//            fixture.setId(true);
-            fixtureList.add(fixture);
+            showMessage(tempAttrList.toString());
+//            fixture.setAttributesList(tempAttrList);
 
+//            fixture.attributesList.addAll(tempAttrList);
+            fixtureList.add(fixture);
         }
         else{
-            fixture.setName( fixtureNameTV.getText().toString());
-            fixture.setChannels(Integer.parseInt(fixtureChannelsTV.getText().toString()));
-            fixture.setMode(fixtureModeTV.getText().toString());
-            fixture.setAddress(Integer.parseInt(fixtureAddressTV.getText().toString()));
-            fixture.setAttributesList(tempAttrList);
+            int i = (int) getIntent().getSerializableExtra("ID");
+            showMessage(String.valueOf(i));
+            fixtureList.get(i).setName( fixtureNameTV.getText().toString());
+            fixtureList.get(i).setChannels(Integer.parseInt(fixtureChannelsTV.getText().toString()));
+            fixtureList.get(i).setMode(fixtureModeTV.getText().toString());
+            fixtureList.get(i).setAddress(Integer.parseInt(fixtureAddressTV.getText().toString()));
+//            fixture.setAttributesList(tempAttrList);
+            fixtureList.get(i).attributesList.addAll(tempAttrList);
+//            showMessage(tempAttrList.toString());
         }
-
         tempAttrList.clear();
         finish();
     }
@@ -166,6 +207,8 @@ public class ActivityFixtureBuilder extends AppCompatActivity {
     }
 
     public void createFixture(Fixture fixture) {
+
+
         try {
             DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
@@ -372,7 +415,7 @@ public class ActivityFixtureBuilder extends AppCompatActivity {
             modePaletteChild = document.createElement("Include");
             rootChild.appendChild(modePaletteChild);
             attrIterator = fixture.attributesList.iterator();
-            int i = 7;
+            int i = 1;
             while (attrIterator.hasNext()) {
 
                 String attrName = attrIterator.next();
@@ -389,7 +432,7 @@ public class ActivityFixtureBuilder extends AppCompatActivity {
                     includeChild.setAttribute("Wheel", String.valueOf(5));
                 }
                 else {
-                    includeChild.setAttribute("Wheel", String.valueOf(i));
+                    includeChild.setAttribute("Wheel", String.valueOf(i+4));
                     i++;
                 }
             }
