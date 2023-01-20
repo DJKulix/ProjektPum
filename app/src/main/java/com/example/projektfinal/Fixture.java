@@ -42,7 +42,7 @@ public class Fixture implements Serializable {
     }
 
     public void setAttributesList(List<String> attributesList) {
-        this.attributesList = attributesList;
+        this.attributesList.addAll(attributesList);
     }
 
     public Fixture(String name, String mode, List<String> attributesList){

@@ -19,6 +19,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -45,6 +46,7 @@ public class ActivityFixtureBuilder extends AppCompatActivity {
     EditText fixtureModeTV;
     EditText fixtureAddressTV;
     EditText fixtureChannelsTV;
+    TextView fixtureAttributesTV;
     Button addAttributeButton;
     Button buildFixtureButton;
     Button saveFixtureButton;
@@ -100,6 +102,7 @@ public class ActivityFixtureBuilder extends AppCompatActivity {
         fixtureModeTV = findViewById(R.id.modeTIBuilder);
         fixtureAddressTV = findViewById(R.id.addressTIBuilder);
         fixtureChannelsTV = findViewById(R.id.channelsTIBuilder);
+        fixtureAttributesTV = findViewById(R.id.attrListTV);
         addAttributeButton = findViewById(R.id.addAttributeButton);
         buildFixtureButton = findViewById(R.id.buildFixtureButton);
         saveFixtureButton = findViewById(R.id.saveFixtureButton);
@@ -110,7 +113,7 @@ public class ActivityFixtureBuilder extends AppCompatActivity {
             fixtureModeTV.setText(tempFixture.getMode());
             fixtureAddressTV.setText(String.valueOf(tempFixture.getAddress()));
             fixtureChannelsTV.setText(String.valueOf(tempFixture.getChannels()));
-
+            fixtureAttributesTV.setText((tempFixture.getAttributesList().toString()));
 
         }
 
@@ -137,7 +140,8 @@ public class ActivityFixtureBuilder extends AppCompatActivity {
                     fixtureModeTV.getText().toString(),
                     Integer.parseInt(fixtureAddressTV.getText().toString())
             );
-            fixture.setAttributesList(tempAttrList);
+//            fixture.setAttributesList(tempAttrList); new commented thing
+            fixture.attributesList.addAll(tempAttrList);
 //            fixture.setId(true);
             fixtureList.add(fixture);
 
@@ -147,6 +151,7 @@ public class ActivityFixtureBuilder extends AppCompatActivity {
             fixture.setChannels(Integer.parseInt(fixtureChannelsTV.getText().toString()));
             fixture.setMode(fixtureModeTV.getText().toString());
             fixture.setAddress(Integer.parseInt(fixtureAddressTV.getText().toString()));
+            fixture.setAttributesList(tempAttrList);
         }
 
         tempAttrList.clear();

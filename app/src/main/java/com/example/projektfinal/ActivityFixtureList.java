@@ -209,6 +209,8 @@ public class ActivityFixtureList extends AppCompatActivity {
                 textViewCh.setGravity(Gravity.CENTER);
                 row.addView(textViewCh);
 
+
+
                 Button addToBuilder = new Button(getApplicationContext());
                 addToBuilder.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_edit_24, 0, 0, 0);
 
