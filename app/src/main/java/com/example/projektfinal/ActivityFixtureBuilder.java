@@ -4,26 +4,24 @@ import static com.example.projektfinal.MainActivity.fixtureList;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -50,7 +48,7 @@ public class ActivityFixtureBuilder extends AppCompatActivity {
     Button addAttributeButton;
     Button buildFixtureButton;
     Button saveFixtureButton;
-
+    Button deleteAttributesButton;
 
     public static void addAttr(String attr) {
         tempAttrList.add(attr);
@@ -69,30 +67,26 @@ public class ActivityFixtureBuilder extends AppCompatActivity {
         setContentView(R.layout.activity_fixture_builder);
 
         // Initialize and assign variable
-        BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_navigation);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         // Set Home selected
         bottomNavigationView.setSelectedItemId(R.id.about);
 
         // Perform item selected listener
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch(item.getItemId())
-                {
-                    case R.id.dashboard:
-                        startActivity(new Intent(getApplicationContext(),ActivityFixtureList.class));
-                        overridePendingTransition(0,0);
-                        return true;
-                    case R.id.about:
-                        return true;
-                    case R.id.home:
-                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                        overridePendingTransition(0,0);
-                        return true;
-                }
-                return false;
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.dashboard:
+                    startActivity(new Intent(getApplicationContext(), ActivityFixtureList.class));
+                    overridePendingTransition(0, 0);
+                    return true;
+                case R.id.about:
+                    return true;
+                case R.id.home:
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    overridePendingTransition(0, 0);
+                    return true;
             }
+            return false;
         });
 
         tempAttrList = new ArrayList<>();
@@ -105,9 +99,18 @@ public class ActivityFixtureBuilder extends AppCompatActivity {
         addAttributeButton = findViewById(R.id.addAttributeButton);
         buildFixtureButton = findViewById(R.id.buildFixtureButton);
         saveFixtureButton = findViewById(R.id.saveFixtureButton);
+        deleteAttributesButton = findViewById(R.id.deleteAttrBtn);
+
+        deleteAttributesButton.setOnClickListener(view -> {
+            int i = (int) getIntent().getSerializableExtra("ID");
+            tempAttrList.clear();
+            fixtureAttributesTV.setText(tempAttrList.toString());
+            fixtureList.get(i).attributesList.clear();
+
+        });
 
         Fixture tempFixture = (Fixture) getIntent().getSerializableExtra("KEY_NAME");
-        if(tempFixture!=null){
+        if (tempFixture != null) {
             fixtureNameTV.setText(tempFixture.getName());
             fixtureModeTV.setText(tempFixture.getMode());
             fixtureAddressTV.setText(String.valueOf(tempFixture.getAddress()));
@@ -117,23 +120,20 @@ public class ActivityFixtureBuilder extends AppCompatActivity {
 
         }
 
-
-
         addAttributeButton.setOnClickListener(view -> startActivity(new Intent(ActivityFixtureBuilder.this, PopUpWindow.class)));
 
         buildFixtureButton.setOnClickListener(view -> {
-            if(checkAllFields()) {
+            if (checkAllFields()) {
                 Fixture fixture = new Fixture(fixtureNameTV.getText().toString(), fixtureModeTV.getText().toString(), tempAttrList);
                 createFixture(fixture);
             }
-
-
         });
 
-        saveFixtureButton.setOnClickListener(view -> saveFixture(tempFixture));
-
+        saveFixtureButton.setOnClickListener(view ->{
+                if(checkAllFields())
+                 saveFixture(tempFixture);
+        });
     }
-
 
     private boolean checkAllFields() {
         if (fixtureNameTV.length() == 0) {
@@ -146,7 +146,7 @@ public class ActivityFixtureBuilder extends AppCompatActivity {
             return false;
         }
 
-        if (fixtureChannelsTV.length() == 0 || Integer.parseInt(fixtureChannelsTV.getText().toString())> 512) {
+        if (fixtureChannelsTV.length() == 0 || Integer.parseInt(fixtureChannelsTV.getText().toString()) > 512) {
             fixtureChannelsTV.setError("Podaj poprawną liczbę kanałów");
             return false;
         }
@@ -155,11 +155,11 @@ public class ActivityFixtureBuilder extends AppCompatActivity {
             fixtureModeTV.setError("Podaj nazwę trybu");
             return false;
         }
-        if(tempAttrList.isEmpty()){
+        if (tempAttrList.isEmpty()) {
             fixtureAttributesTV.setError("Podaj co najmniej 1 atrybut");
             return false;
         }
-        if(tempAttrList.size() != Integer.parseInt(fixtureChannelsTV.getText().toString())) {
+        if (tempAttrList.size() != Integer.parseInt(fixtureChannelsTV.getText().toString())) {
             showMessage("Liczba atrybutów musi równać się liczbie kanałów");
             return false;
         }
@@ -168,9 +168,9 @@ public class ActivityFixtureBuilder extends AppCompatActivity {
         return true;
     }
 
-
     public void saveFixture(Fixture fixture) {
-        if(fixture == null){
+
+        if (fixture == null) {
             fixture = new Fixture(
                     fixtureNameTV.getText().toString(),
                     Integer.parseInt(fixtureChannelsTV.getText().toString()),
@@ -178,24 +178,21 @@ public class ActivityFixtureBuilder extends AppCompatActivity {
                     Integer.parseInt(fixtureAddressTV.getText().toString()),
                     tempAttrList
             );
-            showMessage(tempAttrList.toString());
-//            fixture.setAttributesList(tempAttrList);
-
-//            fixture.attributesList.addAll(tempAttrList);
             fixtureList.add(fixture);
-        }
-        else{
+        } else {
             int i = (int) getIntent().getSerializableExtra("ID");
             showMessage(String.valueOf(i));
-            fixtureList.get(i).setName( fixtureNameTV.getText().toString());
+            fixtureList.get(i).setName(fixtureNameTV.getText().toString());
             fixtureList.get(i).setChannels(Integer.parseInt(fixtureChannelsTV.getText().toString()));
             fixtureList.get(i).setMode(fixtureModeTV.getText().toString());
             fixtureList.get(i).setAddress(Integer.parseInt(fixtureAddressTV.getText().toString()));
-//            fixture.setAttributesList(tempAttrList);
-            fixtureList.get(i).attributesList.addAll(tempAttrList);
-//            showMessage(tempAttrList.toString());
+
+            if (fixtureList.get(i).attributesList.size() < tempAttrList.size())
+                fixtureList.get(i).attributesList.addAll(tempAttrList);
+
         }
         tempAttrList.clear();
+
         finish();
     }
 
@@ -207,20 +204,19 @@ public class ActivityFixtureBuilder extends AppCompatActivity {
     }
 
     public void createFixture(Fixture fixture) {
-
-
         try {
             DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
             Document document = documentBuilder.newDocument();
 
-            //Root
             //<Fixture Name, ShortName, Company, Version>
             Element root = document.createElement("Fixture");
             document.appendChild(root);
-            root.setAttribute("Name", fixture.getName());
-            root.setAttribute("Shortname", fixture.getName());
-            root.setAttribute("Company", "AAFixtureBuilder");
+            String fixtureName = fixture.getName();
+            root.setAttribute("Name", fixtureName);
+            fixtureName = fixtureName.substring(0, Math.min(fixtureName.length(), 9));
+            root.setAttribute("ShortName", fixtureName);
+            root.setAttribute("Company", "11FixtureBuilder");
             root.setAttribute("Version", "1");
 
             //<Copyright notice>
@@ -247,7 +243,9 @@ public class ActivityFixtureBuilder extends AppCompatActivity {
                 String attrName = attrIterator.next();
                 controlChild.setAttribute("ID", attrName);
                 controlChild.setAttribute("Name", attrName);
-                controlChild.setAttribute("Description", "Fixture stworzony w aplikacji");
+                controlChild.setAttribute("Description", "");
+                controlChild.setAttribute("Size", "2");
+                rootChild.appendChild(controlChild);
                 switch (attrName) {
                     //<Attribute>
                     case "Dimmer":
@@ -264,8 +262,9 @@ public class ActivityFixtureBuilder extends AppCompatActivity {
                         controlChild.appendChild(attributeChild);
                         attributeChild.setAttribute("ID", "1");
                         attributeChild.setAttribute("Name", "Dimmer");
-                        attributeChild.setAttribute("Display", "'%.1f%%',0.0~100.0");
-                        attributeChild.setAttribute("DMX", "0~65535");
+                        attributeChild.setAttribute("Display", "'%.2f%%',0.00~100.00");
+                        attributeChild.setAttribute("Dmx", "0~65535");
+                        break;
 
                     case "Shutter":
                         controlChild.setAttribute("Group", "I");
@@ -281,8 +280,9 @@ public class ActivityFixtureBuilder extends AppCompatActivity {
                         controlChild.appendChild(attributeChild);
                         attributeChild.setAttribute("ID", "1");
                         attributeChild.setAttribute("Name", "Strobe HZ");
-                        attributeChild.setAttribute("Display", "'Strobe %.f Hz',0~50");
-                        attributeChild.setAttribute("DMX", "0~255");
+                        attributeChild.setAttribute("Display", "'Strobe %.1f%%',0.0~100.0");
+                        attributeChild.setAttribute("Dmx", "0~65535");
+                        break;
 
                     case "Red":
                         controlChild.setAttribute("Group", "C");
@@ -300,9 +300,10 @@ public class ActivityFixtureBuilder extends AppCompatActivity {
                         controlChild.appendChild(attributeChild);
                         attributeChild.setAttribute("ID", "1");
                         attributeChild.setAttribute("Name", "Red C-Mix");
-                        attributeChild.setAttribute("Display", "'%.1f%%',0.0~100.0");
-                        attributeChild.setAttribute("DMX", "0~255");
-                        attributeChild.setAttribute("Colour", "255, 0, 0");
+                        attributeChild.setAttribute("Display", "'%.2f%%',0.00~100.00");
+                        attributeChild.setAttribute("Dmx", "0~65535");
+                        attributeChild.setAttribute("Colour", "255,0,0");
+                        break;
 
                     case "Green":
                         controlChild.setAttribute("Group", "C");
@@ -315,15 +316,17 @@ public class ActivityFixtureBuilder extends AppCompatActivity {
                         attributeChild.setAttribute("Highlight", "1:0");
                         attributeChild.setAttribute("Lowlight", "1:0");
 
+
 //                        <Function>
                         attributeChild = document.createElement("Function");
                         controlChild.appendChild(attributeChild);
                         attributeChild.setAttribute("ID", "1");
                         attributeChild.setAttribute("Name", "Green C-Mix");
-                        attributeChild.setAttribute("Display", "'%.1f%%',0.0~100.0");
-                        attributeChild.setAttribute("DMX", "0~255");
-                        attributeChild.setAttribute("Colour", "0, 255, 0");
+                        attributeChild.setAttribute("Display", "'%.2f%%',0.00~100.00");
+                        attributeChild.setAttribute("Dmx", "0~65535");
+                        attributeChild.setAttribute("Colour", "0,255,0");
 
+                        break;
                     case "Blue":
                         controlChild.setAttribute("Group", "C");
 
@@ -340,12 +343,12 @@ public class ActivityFixtureBuilder extends AppCompatActivity {
                         controlChild.appendChild(attributeChild);
                         attributeChild.setAttribute("ID", "1");
                         attributeChild.setAttribute("Name", "Blue C-Mix");
-                        attributeChild.setAttribute("Display", "'%.1f%%',0.0~100.0");
-                        attributeChild.setAttribute("DMX", "0~255");
-                        attributeChild.setAttribute("Colour", "0, 0, 255");
-
+                        attributeChild.setAttribute("Display", "'%.2f%%',0.00~100.00");
+                        attributeChild.setAttribute("Dmx", "0~65535");
+                        attributeChild.setAttribute("Colour", "0,0,255");
+                        break;
                     case "White":
-                        controlChild.setAttribute("Group", "S");
+                        controlChild.setAttribute("Group", "C");
 
 //                        <Locate>
                         attributeChild = document.createElement("Locate");
@@ -360,12 +363,12 @@ public class ActivityFixtureBuilder extends AppCompatActivity {
                         controlChild.appendChild(attributeChild);
                         attributeChild.setAttribute("ID", "1");
                         attributeChild.setAttribute("Name", "White C-Mix");
-                        attributeChild.setAttribute("Display", "'%.1f%%',0.0~100.0");
-                        attributeChild.setAttribute("DMX", "0~255");
+                        attributeChild.setAttribute("Display", "'%.2f%%',0.00~100.00");
+                        attributeChild.setAttribute("Dmx", "0~65535");
                         attributeChild.setAttribute("Colour", "255, 255, 255");
-
+                        break;
                     case "Amber":
-                        controlChild.setAttribute("Group", "S");
+                        controlChild.setAttribute("Group", "C");
 
 //                        <Locate>
                         attributeChild = document.createElement("Locate");
@@ -381,9 +384,9 @@ public class ActivityFixtureBuilder extends AppCompatActivity {
                         attributeChild.setAttribute("ID", "1");
                         attributeChild.setAttribute("Name", "Amber C-Mix");
                         attributeChild.setAttribute("Display", "'%.1f%%',0.0~100.0");
-                        attributeChild.setAttribute("DMX", "0~255");
+                        attributeChild.setAttribute("Dmx", "0~65535");
                         attributeChild.setAttribute("Colour", "255, 100, 0");
-
+                        break;
 //                        </Attribute>
                 }
             }
@@ -394,7 +397,7 @@ public class ActivityFixtureBuilder extends AppCompatActivity {
             root.appendChild(rootChild);
 
             rootChild.setAttribute("Name", fixture.getMode());
-            rootChild.setAttribute("Channels", String.valueOf(fixture.attributesList.size()));
+            rootChild.setAttribute("Channels", String.valueOf(fixture.getChannels()));
 
 //              <Import>
             Element modePaletteChild = document.createElement("Import");
@@ -425,20 +428,19 @@ public class ActivityFixtureBuilder extends AppCompatActivity {
                 includeChild.setAttribute("ID", attrName);
                 includeChild.setAttribute("ChannelOffset", String.valueOf(i));
 
-                if (attrName.equals("Dimmer")){
-                    includeChild.setAttribute("Wheel", String.valueOf(4));
+                if (attrName.equals("Dimmer")) {
+                    includeChild.setAttribute("Wheel", String.valueOf(1));
                 }
-                if (attrName.equals("Shutter")){
-                    includeChild.setAttribute("Wheel", String.valueOf(5));
+                if (attrName.equals("Shutter")) {
+                    includeChild.setAttribute("Wheel", String.valueOf(2));
+                } else {
+                    includeChild.setAttribute("Wheel", String.valueOf(i + 4));
+
                 }
-                else {
-                    includeChild.setAttribute("Wheel", String.valueOf(i+4));
-                    i++;
-                }
+                i++;
             }
 //              </Include>
 //            </Mode>
-
 
 
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -447,13 +449,33 @@ public class ActivityFixtureBuilder extends AppCompatActivity {
 
 
             String fileName = fixture.getName() + "MobileFB.d4";
+            fileName = fileName.replaceAll(" ", "_");
             StreamResult streamResult = new StreamResult(new File(Environment.getExternalStorageDirectory(), fileName));
 
             transformer.transform(domSource, streamResult);
 
             showMessage("Zapisano do pliku" + fileName);
+
+//            File externalFilesDirectory = this.getExternalFilesDir(String.valueOf(Environment.getExternalStorageDirectory()));/
+            File file = new File (Environment.getExternalStorageDirectory() +"/" + fileName);
+            sendEmail(file);
+
         } catch (ParserConfigurationException | TransformerException e) {
             e.printStackTrace();
         }
     }
-}
+
+    private void sendEmail(File file) {
+        Uri fileUri = FileProvider.getUriForFile(this, getPackageName() + ".provider", file);
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        emailIntent.setType("vnd.android.cursor.dir/email");
+        String[] to = {"mkula737@gmail.com"};
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, to);
+        emailIntent.putExtra(Intent.EXTRA_STREAM, fileUri);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Plik z kreatora");
+        startActivity(Intent.createChooser(emailIntent, "Send email"));
+    }
+
+}//Nawias konczacy klasę
+

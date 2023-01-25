@@ -1,23 +1,23 @@
 package com.example.projektfinal;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,25 +40,22 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.home);
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
 
-                switch(item.getItemId())
-                {
-                    case R.id.dashboard:
-                        startActivity(new Intent(getApplicationContext(),ActivityFixtureList.class));
-                        overridePendingTransition(0,0);
-                        return true;
-                    case R.id.home:
-                        return true;
-                    case R.id.about:
-                        startActivity(new Intent(getApplicationContext(),ActivityFixtureBuilder.class));
-                        overridePendingTransition(0,0);
-                        return true;
-                }
-                return false;
+            switch(item.getItemId())
+            {
+                case R.id.dashboard:
+                    startActivity(new Intent(getApplicationContext(),ActivityFixtureList.class));
+                    overridePendingTransition(0,0);
+                    return true;
+                case R.id.home:
+                    return true;
+                case R.id.about:
+                    startActivity(new Intent(getApplicationContext(),ActivityFixtureBuilder.class));
+                    overridePendingTransition(0,0);
+                    return true;
             }
+            return false;
         });
 
 
@@ -94,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Listeners
 
-        btnRotateLeftRight.setOnClickListener(view -> {
+        btnRotateUpsideDown.setOnClickListener(view -> {
             TableLayout tableLayout = findViewById(R.id.switchTL);
             if(tableLayout.getRotationX() == 0)
                 tableLayout.setRotationX(180);
@@ -103,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-        btnRotateUpsideDown.setOnClickListener(view -> {
+        btnRotateLeftRight.setOnClickListener(view -> {
             TableLayout tableLayout = findViewById(R.id.switchTL);
             if(tableLayout.getRotationY() == 0)
                 tableLayout.setRotationY(180);
@@ -112,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         btnAddHundreds.setOnClickListener(view -> {
-            if (dmxAddress >= 500) {
+            if (dmxAddress + 100 >= 511) {
                 showMessage("Przekroczono maksymalną wartość");
             } else {
                 dmxAddress += 100;
@@ -180,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
                     dmxAddress -= 100;
                 }
             }
+            calculateDipSwitch();
         });
 
         btnDecDecimals.setOnClickListener(view -> {
@@ -272,14 +270,20 @@ public class MainActivity extends AppCompatActivity {
             else{
                 showMessage("Kolejny skok spowoduje niepoprawny adres");
             }
+            calculateDipSwitch();
         });
 
         btnChngStep.setOnClickListener(view -> {
             String step = Objects.requireNonNull(tiChngStep.getText()).toString();
             String add = "+" + step;
             String dec = "-" + step;
-            btnDecStep.setText(dec);
-            btnAddStep.setText(add);
+            if(Integer.parseInt(step) > 0 && Integer.parseInt(step) < 512) {
+                btnDecStep.setText(dec);
+                btnAddStep.setText(add);
+            }
+            else{
+                showMessage("Niepoprawny krok");
+            }
 
         });
 

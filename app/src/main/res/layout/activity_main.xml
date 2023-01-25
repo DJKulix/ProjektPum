@@ -263,6 +263,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textColor="@color/white"
                 android:text="1" />
 
             <TextView
@@ -271,6 +272,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textColor="@color/white"
                 android:text="2" />
 
             <TextView
@@ -279,6 +281,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textColor="@color/white"
                 android:text="3" />
 
             <TextView
@@ -287,6 +290,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textColor="@color/white"
                 android:text="4" />
 
             <TextView
@@ -295,6 +299,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textColor="@color/white"
                 android:text="5" />
 
             <TextView
@@ -303,6 +308,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textColor="@color/white"
                 android:text="6" />
 
             <TextView
@@ -311,6 +317,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textColor="@color/white"
                 android:text="7" />
 
             <TextView
@@ -319,6 +326,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textColor="@color/white"
                 android:text="8" />
 
             <TextView
@@ -327,6 +335,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textColor="@color/white"
                 android:text="9" />
 
         </TableRow>
@@ -409,6 +418,7 @@
                 android:layout_weight="1"
                 android:maxWidth="5dp"
                 android:paddingEnd="-5dp"
+                android:onClick="calculateAddr"
                 android:rotation="270"
                 android:scaleX="1.5" />
 
@@ -447,6 +457,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textColor="@color/white"
                 android:text="1" />
 
             <TextView
@@ -455,6 +466,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textColor="@color/white"
                 android:text="2" />
 
             <TextView
@@ -463,6 +475,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textColor="@color/white"
                 android:text="3" />
 
             <TextView
@@ -471,6 +484,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textColor="@color/white"
                 android:text="4" />
 
             <TextView
@@ -479,6 +493,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textColor="@color/white"
                 android:text="5" />
 
             <TextView
@@ -487,6 +502,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textColor="@color/white"
                 android:text="6" />
 
             <TextView
@@ -495,6 +511,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textColor="@color/white"
                 android:text="7" />
 
             <TextView
@@ -503,6 +520,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textColor="@color/white"
                 android:text="8" />
 
             <TextView
@@ -511,6 +529,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textColor="@color/white"
                 android:text="9" />
 
         </TableRow>
@@ -548,7 +567,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        app:itemBackground="@color/teal_700"
+        app:itemBackground="@color/bottomNav"
         app:itemIconTint="@drawable/selector"
         app:itemTextColor="@drawable/selector"
         app:menu="@menu/menu_navigation" />

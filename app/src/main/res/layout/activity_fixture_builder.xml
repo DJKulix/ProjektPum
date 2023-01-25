@@ -122,20 +122,33 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_below="@id/modeLL"
+            android:weightSum="3"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/attrListTV"
+                android:textColor="@color/white"
+                android:textSize="18sp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="2"
                 android:text="@string/attributesList">
 
             </TextView>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/deleteAttrBtn"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:drawableLeft="@drawable/ic_baseline_delete_forever_24"
+                android:layout_height="wrap_content">
+
+            </com.google.android.material.button.MaterialButton>
 
         </LinearLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/addAttributeButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -143,13 +156,14 @@
             android:text="@string/dodaj_atrybut" />
 
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/saveFixtureButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/buildFixtureButton"
             android:text="@string/zapisz" />
-        <Button
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/buildFixtureButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -160,7 +174,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_alignParentBottom="true"
-            app:itemBackground="@color/teal_700"
+            app:itemBackground="@color/another_teal"
             app:itemIconTint="@drawable/selector"
             app:itemTextColor="@drawable/selector"
             app:menu="@menu/menu_navigation" />

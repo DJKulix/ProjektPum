@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.Gravity;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -29,7 +30,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.Locale;
 
 public class ActivityFixtureList extends AppCompatActivity {
 
@@ -37,19 +41,25 @@ public class ActivityFixtureList extends AppCompatActivity {
     ActivityResultLauncher<Intent> sActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
         if (result.getResultCode() == Activity.RESULT_OK) {
             Intent data = result.getData();
-            Uri uri = data.getData();
-            File file = new File(uri.getPath());
-            final String[] split = file.getPath().split(":");//split the path.
-            String filePath = "storage/emulated/0/" + split[1];//assign it to a string(your choice).
-            file = new File(filePath);
-            showMessage(file.toString());
-            try {
-                Reader reader = new FileReader(filePath);
-                Fixture[] tempArray = new Gson().fromJson(reader, Fixture[].class);
-                fixtureList.addAll(Arrays.asList(tempArray));
-                updateTable();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
+            Uri uri;
+            if (data != null) {
+                uri = data.getData();
+                File file = new File(uri.getPath());
+                final String[] split = file.getPath().split(":");//split the path.
+                String filePath = "storage/emulated/0/" + split[1];//assign it to a string(your choice).
+                file = new File(filePath);
+//                showMessage(file.toString());
+                try {
+                    Reader reader = new FileReader(filePath);
+                    Fixture[] tempArray = new Gson().fromJson(reader, Fixture[].class);
+                    fixtureList.addAll(Arrays.asList(tempArray));
+                    updateTable();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+            else{
+                showMessage("Zły plik");
             }
         }
     });
@@ -92,6 +102,7 @@ public class ActivityFixtureList extends AppCompatActivity {
             else {
                 try {
                     exportJson();
+                    showMessage("Wyeksportowano do katalogu głównego");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -112,8 +123,6 @@ public class ActivityFixtureList extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        validateAddress();
-//        showMessage("RESUME");
         updateTable();
     }
 
@@ -121,7 +130,7 @@ public class ActivityFixtureList extends AppCompatActivity {
         int addr = 1;
         for (Fixture fixture : fixtureList) {
             fixture.setAddress(addr);
-            addr += fixture.getChannels() + 1;
+            addr += fixture.getChannels();
             fixture.setId(true);
             if (addr > 512) showMessage("Przekroczono dopuszczalną liczbę adresów");
             updateTable();
@@ -129,8 +138,10 @@ public class ActivityFixtureList extends AppCompatActivity {
     }
 
     public static void exportJson() throws IOException {
+        SimpleDateFormat sdf = new SimpleDateFormat("MMdd_HHmmss", Locale.getDefault());
+        String currentDate = sdf.format(new Date());
         String json = new Gson().toJson(fixtureList);
-        String fileName = "fixtureList.json";
+        String fileName = "fixtureList" + currentDate +".json";
         FileWriter fileWriter = new FileWriter(new File(Environment.getExternalStorageDirectory(), fileName));
         fileWriter.write(json);
         fileWriter.flush();
@@ -156,13 +167,13 @@ public class ActivityFixtureList extends AppCompatActivity {
         tableLayout.removeAllViews();
         TableRow tableHeader = new TableRow(this);
         tableHeader.setPadding(25, 25, 25, 25);
-        tableHeader.setBackgroundColor(Color.MAGENTA);
-
+        tableHeader.setBackgroundColor(Color.rgb(74, 20, 140));
 
         TextView textViewHeaderName = new TextView(this);
         textViewHeaderName.setText("Nazwa");
         textViewHeaderName.setWidth(275);
         textViewHeaderName.setGravity(Gravity.CENTER);
+        textViewHeaderName.setTextColor(Color.WHITE);
         tableHeader.addView(textViewHeaderName);
 
 
@@ -170,6 +181,7 @@ public class ActivityFixtureList extends AppCompatActivity {
         textViewHeaderAddr.setPadding(0, 0, 25, 0);
         textViewHeaderAddr.setText("Adres");
         textViewHeaderAddr.setWidth(150);
+        textViewHeaderAddr.setTextColor(Color.WHITE);
 
         tableHeader.addView(textViewHeaderAddr);
 
@@ -177,15 +189,19 @@ public class ActivityFixtureList extends AppCompatActivity {
         textViewHeaderMode.setText("Tryb");
         textViewHeaderMode.setWidth(225);
         textViewHeaderMode.setGravity(Gravity.CENTER);
+        textViewHeaderMode.setTextColor(Color.WHITE);
         tableHeader.addView(textViewHeaderMode);
 
         TextView textViewHeaderCh = new TextView(this);
         textViewHeaderCh.setText("Liczba kanałów");
+        textViewHeaderCh.setGravity(Gravity.CENTER);
         textViewHeaderCh.setWidth(150);
+        textViewHeaderCh.setTextColor(Color.WHITE);
         tableHeader.addView(textViewHeaderCh);
 
         tableLayout.addView(tableHeader);
         if (!fixtureList.isEmpty()) {
+
             int i = 0;
             for (Fixture value : fixtureList) {
                 TableRow row = new TableRow(getApplicationContext());
@@ -215,9 +231,19 @@ public class ActivityFixtureList extends AppCompatActivity {
                 row.addView(textViewCh);
 
 
-
+                LinearLayout ll = new LinearLayout(getApplicationContext());
+                ll.setOrientation(LinearLayout.HORIZONTAL);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                params.width = 128;
                 Button addToBuilder = new Button(getApplicationContext());
-                addToBuilder.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_edit_24, 0, 0, 0);
+                addToBuilder.setText(null);
+                addToBuilder.setMinimumWidth(0);
+                addToBuilder.setWidth(24);
+                addToBuilder.setBackgroundColor(Color.rgb(74, 20 ,140));
+                addToBuilder.setLayoutParams(params);
+                addToBuilder.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_edit_24, 0,0 , 0);
+
+
 
                 int finalI = i;
                 addToBuilder.setOnClickListener(view -> {
@@ -227,8 +253,23 @@ public class ActivityFixtureList extends AppCompatActivity {
                     startActivity(intent);
                 });
 
-                row.addView(addToBuilder);
+                Button deleteFixture = new Button(getApplicationContext());
+                deleteFixture.setBackgroundColor(Color.rgb(74, 20 ,140));
+                deleteFixture.setPadding(24, 0, 0, 0);
+                deleteFixture.setMinimumWidth(0);
+                deleteFixture.setWidth(24);
+                deleteFixture.setLayoutParams(params);
+                deleteFixture.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_delete_forever_24, 0, 0, 0);
 
+                deleteFixture.setOnClickListener(view -> {
+                    fixtureList.remove(finalI);
+                    updateTable();
+                });
+
+                ll.addView(addToBuilder);
+                ll.addView(deleteFixture);
+
+                row.addView(ll);
                 tableLayout.addView(row);
                 i++;
             }
@@ -253,6 +294,7 @@ public class ActivityFixtureList extends AppCompatActivity {
                 }
             }
         }
+        updateTable();
     }
 
 }
